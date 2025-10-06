@@ -6,7 +6,10 @@
         <meta property="og:type" content="website"/>
         <meta content="summary_large_image" name="twitter:card"/>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
         <link href="style.css" rel="stylesheet" type="text/css"/>
+        
         <style>
             @media (min-width: 992px) {
                 html.w-mod-js:not(.w-mod-ix) [data-w-id="0cac0009-d3ca-d537-b81e-52aaa7d56228"] {
@@ -148,7 +151,7 @@
                         </div>
                     </div>
                     <div data-w-id="a32b4782-c26c-8ef9-dc8d-2bde6eca1c2c" style="opacity:0" class="spline-block">
-                        <div class="spline-scene" data-w-id="888555f8-1390-0981-e2e9-c9ab48dfc7bf" data-animation-type="spline" data-spline-url="https://prod.spline.design/e4thK5GcAcuS1xQZ/scene.splinecode">
+                        <div class="spline-scene" data-w-id="888555f8-1390-0981-e2e9-c9ab48dfc7bf" data-animation-type="spline" data-spline-url="https://prod.spline.desiign/e4thK5GcAcuS1xQZ/scene.splinecode">
                             <canvas></canvas>
                         </div>
                     </div>
@@ -160,6 +163,91 @@
                 <div class="bg-pink-blur"></div>
             </div>
         </section>
+        <!-- === CHALLENGE SECTION START === -->
+        <section id="challenge" class="py-12 px-4 sm:px-6 lg:px-8 bg-background-light dark:bg-background-dark">
+        <div class="container mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-text-light dark:text-text-dark">
+                The Challenge We're Addressing
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+                Africa's primary healthcare infrastructure faces critical gaps that impact millions of lives daily.
+            </p>
+            </div>
+
+            <!-- Content -->
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+            <!-- Stats -->
+            <div class="w-full lg:w-1/2 space-y-6">
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-start space-x-4">
+                    <span class="material-symbols-outlined text-accent text-4xl">trending_down</span>
+                    <div>
+                    <h3 class="text-4xl font-bold text-accent">Less than 20%</h3>
+                    <p class="mt-2 text-text-light dark:text-text-dark">of PHCs in Nigeria are fully functional</p>
+                    </div>
+                </div>
+                </div>
+
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <div class="flex items-start space-x-4">
+                        <span class="material-symbols-outlined text-primary text-4xl">warning</span>
+                        <div>
+                        <h3 class="text-4xl font-bold text-primary">70%</h3>
+                        <p class="mt-2 text-text-light dark:text-text-dark">
+                            of health needs can be solved at PHC level, yet most centers lack diagnostic capacity
+                        </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-start space-x-4">
+                    <span class="material-symbols-outlined text-primary text-4xl">diversity_3</span>
+                    <div>
+                    <h3 class="text-4xl font-bold text-primary">Millions</h3>
+                    <p class="mt-2 text-text-light dark:text-text-dark">
+                        of people in underserved communities lack access to basic healthcare
+                    </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- Map Graphic -->
+            <div class="bg-primary p-6 rounded-lg shadow-lg">
+            <div class="relative w-full">
+                <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                <!-- Simplified Africa SVG outline -->
+                <path d="M400,20 C200,80 80,300 150,500 C200,650 400,780 600,700 C720,640 780,520 740,400 C700,280 650,150 500,80 C460,60 430,30 400,20Z" fill="#004e91" stroke="#fff" stroke-width="2"/>
+
+                <!-- Nigeria -->
+                <circle cx="380" cy="420" r="10" class="fill-red-500 hover:scale-125 transition-transform duration-300 cursor-pointer">
+                    <title>🇳🇬 Nigeria – Only ~20% of PHCs fully functional</title>
+                </circle>
+
+                <!-- Kenya -->
+                <circle cx="520" cy="460" r="8" class="fill-yellow-400 hover:scale-125 transition-transform duration-300 cursor-pointer">
+                    <title>🇰🇪 Kenya – Diagnostic shortage at PHC level</title>
+                </circle>
+
+                <!-- South Africa -->
+                <circle cx="470" cy="640" r="10" class="fill-blue-400 hover:scale-125 transition-transform duration-300 cursor-pointer">
+                    <title>🇿🇦 South Africa – Logistics & supply issues</title>
+                </circle>
+
+                <!-- DRC -->
+                <circle cx="460" cy="480" r="9" class="fill-green-400 hover:scale-125 transition-transform duration-300 cursor-pointer">
+                    <title>🇨🇩 DRC – Limited access to rural healthcare</title>
+                </circle>
+                </svg>
+            </div>
+            </div>
+
+        </div>
+        </section>
+<!-- === CHALLENGE SECTION END === -->
         <section data-w-id="073fddf2-179b-deba-f1b2-64082f39f0f4" class="footer-section">
             <div class="w-layout-blockcontainer container w-container">
                 <div class="rights-link">
@@ -176,7 +264,7 @@
                             <img loading="lazy" src="https://cdn.prod.website-files.com/67dbaf8a0c22857f90281733/67e3f092f927b51ea0ad3bd7_X.svg" alt="X Icon"/>
                         </a>
                     </div>
-                </div>
+                </div>x
             </div>
             <div class="bg-gradient">
                 <div class="bg-gradient-01"></div>

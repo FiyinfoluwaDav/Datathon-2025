@@ -8,6 +8,62 @@ body {
     margin: 0
 }
 
+/* === Challenge Section Styles === */
+.map-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.map-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.map-dot {
+  position: absolute;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.map-dot:hover {
+  transform: scale(1.1);
+}
+
+.map-dot .tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  z-index: 1;
+  white-space: nowrap;
+  transition: opacity 0.3s;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+}
+
+.map-dot:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.text-accent { color: #e63946; } /* red */
+.text-primary { color: #1d4ed8; } /* blue */
+
+
+body {
+  min-height: max(884px, 100dvh);
+}
+
+
 article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary {
     display: block
 }
