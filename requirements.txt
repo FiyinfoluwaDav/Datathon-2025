@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+passlib
+mysqlclient
+sqlalchemy
+bcrypt
+psycopg2-binary
+alembic
+google-genai
