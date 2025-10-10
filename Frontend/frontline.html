@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Frontline Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#1F2937",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#374151",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#4B5563",
+                    },
+                    fontFamily: {
+                        display: ["Roboto", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-icons {
+            font-size: inherit;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="flex h-screen" id="app">
+        <div id="overlay" class="fixed inset-0 bg-black bg-opacity-30 hidden md:hidden z-10"></div>
+
+        <aside class="fixed top-0 left-0 h-full w-64 bg-white dark:bg-card-dark transition-transform -translate-x-full md:relative md:translate-x-0 md:flex-shrink-0 z-20" id="sidebar">
+            <div class="flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark">
+                <h1 class="text-xl font-bold text-primary">Frontline Portal</h1>
+                <button class="md:hidden" id="close-sidebar">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <nav class="p-4">
+                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Quick Actions</p>
+                <button type="button" id="open-register" class="w-full mt-2 bg-primary text-white py-2 px-4 rounded-lg flex items-center justify-center font-semibold">
+                    <span class="material-icons mr-2">person_add</span>
+                    Register Patient
+                </button>
+                <div class="mt-6">
+                    <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Filters</p>
+                    <ul class="mt-2 space-y-2">
+                        <li>
+                            <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+                                <span class="material-icons mr-3">today</span>
+                                Today
+                            </a>
+                        </li>
+                        <li>
+                            <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+                                Antenatal
+                            </a>
+                        </li>
+                        <li>
+                            <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg bg-blue-100 dark:bg-blue-900 font-semibold" href="#">
+                                Malaria
+                            </a>
+                        </li>
+                        <li>
+                            <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+                                Immunization
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6">
+                    <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Offline</p>
+                    <div class="mt-2 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 flex items-center">
+                        <span class="material-icons mr-3">sync</span>
+                        <span>24 pending</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto bg-gray-50">
+            <div class="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto"></div>
+            <header class="bg-white dark:bg-card-dark shadow-sm sticky top-0 z-10">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <button class="md:hidden" id="open-sidebar">
+                            <span class="material-icons">menu</span>
+                        </button>
+                        <nav class="hidden md:flex items-center space-x-8">
+                            <button data-tab="patient-management" class="tab-btn text-sm font-medium text-primary border-b-2 border-primary">Patient Management</button>
+                            <button data-tab="inventory" class="tab-btn text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-primary">Inventory</button>
+                            <button data-tab="visits" class="tab-btn text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-primary">Visits</button>
+                            <button data-tab="reports" class="tab-btn text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-primary">Reports</button>
+                        </nav>
+                        <div class="flex items-center space-x-4">
+                            <div class="relative hidden sm:block">
+                                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                                <input class="bg-gray-100 dark:bg-gray-700 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-primary focus:border-primary" placeholder="Search" type="text" />
+                            </div>
+                            <button class="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400">
+                                EN
+                                <span class="material-icons">arrow_drop_down</span>
+                            </button>
+                            <div class="flex items-center">
+                                <img alt="A. Musa profile picture" class="rounded-full w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCknFFiRUiAfGmSoErm4-I9bC2gB4dNHdjk3slrL-Qs8_PCSkGsb4cnUjnOmnTL4twkr4nlBhRL2NvtnlpI7zTcDuMjmsuTu5XuSHm_Adqyg5VAG1gH6m2nIDkaOn00a-KQFAZq45Hm8LTJcUHaVLHO7evHRgIBll5lJeRpHi-k1B5kZFFWqL5F-8ojIR9OaQqLRiiwAZPt7-6k8ExbdzFoi8mJQkt4Nv6KBpmyfUykeVLcXR-1KFrEiTSR536_hknrBNK7sxfRfRM" />
+                                <span class="ml-2 text-sm font-medium hidden sm:block">A. Musa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="p-4 sm:p-6 lg:p-8 space-y-6">
+                <!-- Tab: Patient Management (default visible) -->
+                <div id="patient-management" class="tab-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Patient Registration + Triage -->
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-bold">Patient Management & Triage</h2>
+                                <div class="flex items-center space-x-2">
+                                    <button class="text-xs px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full flex items-center">
+                                        <span class="material-icons text-sm mr-1">volume_up</span> Voice Enabled
+                                    </button>
+                                    <button class="text-xs px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full flex items-center">
+                                        <span class="material-icons text-sm mr-1">translate</span> Multilingual
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <h3 class="text-md font-semibold">Patient Registration</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Name <span class="text-red-500">Required</span></label>
+                                        <input id="patient-name" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="text" />
+                                    </div>
+                                    <div>
+                                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Age</label>
+                                        <input id="patient-age" min="0" oninput="if(this.value < 0) this.value = 0;" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="number" />
+                                    </div>
+                                    <div>
+                                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Sex</label>
+                                        <select id="patient-sex" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                            <option value="" disabled selected>Select sex</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Visit Type</label>
+                                        <select id="patient-visit" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                            <option value="" disabled selected>Select visit type</option>
+                                            <option value="Emergency">Emergency</option>
+                                            <option value="Acute">Acute</option>
+                                            <option value="Routine">Routine</option>
+                                            <option value="Follow-up">Follow-up</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Symptoms</label>
+                                    <div class="relative mt-1">
+                                        <textarea id="patient-symptoms" class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" rows="2"></textarea>
+                                        <span class="material-icons absolute right-3 top-3 text-gray-400">mic</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Vitals (e.g., BP:120/80, Temp:37.2)</label>
+                                    <div class="relative mt-1">
+                                        <input id="patient-vitals" class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="text" placeholder="e.g. BP:120/80; Temp:37.2" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Medical History (comma or newline separated)</label>
+                                    <div class="relative mt-1">
+                                        <textarea id="patient-medical-history" class="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" rows="2" placeholder="e.g. Hypertension, Diabetes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end space-x-4">
+                                    <button class="px-6 py-2 border border-primary text-primary rounded-lg font-semibold">Save Draft</button>
+                                    <button id="start-triage" type="button" class="px-6 py-2 bg-primary text-white rounded-lg font-semibold flex items-center">
+                                        <span class="material-icons mr-2">play_arrow</span>
+                                        Start Triage
+                                    </button>
+                                </div>
+                                <!-- area to show triage result -->
+                                <div id="triage-result" class="mt-4 hidden bg-card-light dark:bg-card-dark p-3 rounded-lg">
+                                    <h4 class="font-semibold">Triage result</h4>
+                                    <div id="triage-urgency" class="mt-2"></div>
+                                    <div id="triage-actions" class="mt-2"></div>
+                                    <div id="triage-reasoning" class="mt-2 text-sm text-gray-600"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Triage Assistant -->
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <h2 class="text-lg font-bold mb-4">AI Triage Assistant</h2>
+                            <div class="space-y-4">
+                                <!-- chat area -->
+                                <div id="triage-chat" class="space-y-3 max-h-56 overflow-y-auto p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                                    <!-- messages appended here -->
+                                </div>
+
+                                <!-- input: patient ID -->
+                                <div class="relative mt-2 flex items-center">
+                                    <input id="triage-input" class="flex-1 pr-24 rounded-lg border border-border-light dark:border-border-dark dark:bg-gray-700 focus:ring-primary focus:border-primary px-3 py-2" type="text" placeholder="Input patient ID" />
+                                    <button id="triage-send" class="ml-3 px-4 py-2 bg-primary text-white rounded-lg font-semibold text-sm">Send</button>
+                                    <div id="triage-loading" class="ml-2 hidden text-sm text-gray-500">Loading...</div>
+                                </div>
+                                <div class="flex justify-end space-x-2">
+                                    <button id="triage-clear" class="text-xs px-3 py-1 border border-gray-300 rounded-full">Clear Chat</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Referral + Queue (also on Patient Management) -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <h2 class="text-lg font-bold mb-4">Referral Generator</h2>
+                            <img alt="Map showing nearby hospitals" class="w-full h-48 object-cover rounded-lg mb-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgSPfil0q576LBE3MY8iemTgFft2TCls_6R7KZb5ZB0grRe9npieVwzXB7QSvDXmNUJU8sHDs-RJl5GJOnbJ1a6sDs5o2pb-QIHYpptJ5hRU821nS4r9gDuOkHkm_q5AotdlsXIjutCeEY1GUDV55p2sm2-G0PfDiRVgyeJTQqdfCCxBinI17VQ7BRV9_l5MIQZTZvbYz-rKEx2OWCq4FND-JUZ1DGoXaHS5iD9LS3ZA8zZfIE0zX7diX23y4VepMIPOSsVkMgA9A" />
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 border border-border-light dark:border-border-dark rounded-lg">
+                                    <div>
+                                        <h3 class="font-semibold">General Hospital Kura</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Capacity: High • 15 min</p>
+                                    </div>
+                                    <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold">Select</button>
+                                </div>
+                                <div class="flex items-center justify-between p-3 border border-border-light dark:border-border-dark rounded-lg">
+                                    <div>
+                                        <h3 class="font-semibold">PHC Dawakin</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Capacity: Medium • 25 min</p>
+                                    </div>
+                                    <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold">Select</button>
+                                </div>
+                                <div class="flex items-center justify-between p-3 border border-border-light dark:border-border-dark rounded-lg">
+                                    <div>
+                                        <h3 class="font-semibold">Teaching Hospital</h3>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Capacity: Low • 40 min</p>
+                                    </div>
+                                    <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold">Select</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <h2 class="text-lg font-bold mb-4">Queue & Forecast</h2>
+                            <div class="grid grid-cols-3 gap-4 text-center mb-4">
+                                <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg">
+                                    <p class="text-sm text-blue-800 dark:text-blue-200">Queue Length</p>
+                                    <p class="text-3xl font-bold text-blue-900 dark:text-blue-100">12</p>
+                                </div>
+                                <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg">
+                                    <p class="text-sm text-blue-800 dark:text-blue-200">Wait Time (min)</p>
+                                    <p class="text-3xl font-bold text-blue-900 dark:text-blue-100">35</p>
+                                </div>
+                                <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg">
+                                    <p class="text-sm text-blue-800 dark:text-blue-200">Tomorrow Load</p>
+                                    <p class="text-3xl font-bold text-blue-900 dark:text-blue-100">74</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 mb-4">
+                                <input class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" placeholder="Update wait time" type="text" />
+                                <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold">Update</button>
+                            </div>
+                            <div class="p-2 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-lg text-sm text-center">
+                                AI Forecast updated 2 mins ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Inventory -->
+                <div id="inventory" class="tab-content hidden">
+                    <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                        <h2 class="text-lg font-bold mb-4">Daily Drug Usage</h2>
+                        <form class="grid grid-cols-3 gap-4 items-end">
+                            <div>
+                                <label class="text-sm font-medium">Item (e.g., Paracetamol)</label>
+                                <input class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="text" />
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium">Quantity</label>
+                                <input class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="number" />
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="px-4 py-2 border border-primary text-primary rounded-lg font-semibold w-full">Add Entry</button>
+                                <button class="px-4 py-2 bg-primary text-white rounded-lg font-semibold w-full">Save</button>
+                            </div>
+                        </form>
+                        <h3 class="text-md font-semibold mt-6 mb-2">Current Stock</h3>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-border-light dark:border-border-dark">
+                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Item</th>
+                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Qty</th>
+                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stock-table"></tbody>
+                        </table>
+                        <div class="mt-2 p-2 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-lg text-sm text-center">
+                            Paracetamol likely to finish in 4 days
+                        </div>
+                        <button class="mt-4 w-full px-6 py-2 bg-primary text-white rounded-lg font-semibold">Restock Request</button>
+                    </div>
+                </div>
+
+                <!-- Tab: Visits -->
+                <div id="visits" class="tab-content hidden">
+                    <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                        <h2 class="text-lg font-bold mb-4">Visits Summary</h2>
+                        <div id="visit-cards" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"></div>
+                        <div class="grid grid-cols-2 gap-4 mt-6 h-48">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">Bar chart</div>
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">Pie chart</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab: Reports -->
+                <div id="reports" class="tab-content hidden">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <h2 class="text-lg font-bold mb-4">Monthly Summary</h2>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 border border-border-light dark:border-border-dark rounded-lg">
+                                    <p class="font-medium">August 2025</p>
+                                    <div class="flex space-x-2">
+                                        <button class="px-4 py-1.5 border border-primary text-primary rounded-lg font-semibold text-sm">View</button>
+                                        <button class="px-4 py-1.5 bg-primary text-white rounded-lg font-semibold text-sm">Download</button>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center p-3 border border-border-light dark:border-border-dark rounded-lg">
+                                    <p class="font-medium">July 2025</p>
+                                    <div class="flex space-x-2">
+                                        <button class="px-4 py-1.5 border border-primary text-primary rounded-lg font-semibold text-sm">View</button>
+                                        <button class="px-4 py-1.5 bg-primary text-white rounded-lg font-semibold text-sm">Download</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                            <h2 class="text-lg font-bold mb-4">Feedback & Issues</h2>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="text-sm font-medium">Category (e.g., no water)</label>
+                                    <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-border-dark dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"></select>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium">Priority</label>
+                                    <select class="mt-1 block w-full rounded-md border-gray-300 dark:border-border-dark dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"></select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-sm font-medium">Describe the issue...</label>
+                                <textarea class="mt-1 block w-full rounded-md border-gray-300 dark:border-border-dark dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" rows="2"></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-4">
+                                <button class="px-6 py-2 border border-primary text-primary rounded-lg font-semibold">Save</button>
+                                <button class="px-6 py-2 bg-primary text-white rounded-lg font-semibold">Submit to LGA Admin</button>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-right">Offline-first: your feedback will sync when connectivity returns.</p>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // simple tab behaviour (works together with the DOMContentLoaded handler)
+                    (function () {
+                        function selectTab(name) {
+                            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                            document.querySelectorAll('.tab-btn').forEach(b => {
+                                b.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                                b.classList.add('text-gray-500');
+                            });
+                            const el = document.getElementById(name);
+                            if (el) el.classList.remove('hidden');
+                            const btn = document.querySelector('.tab-btn[data-tab="'+name+'"]');
+                            if (btn) {
+                                btn.classList.add('text-primary', 'border-b-2', 'border-primary');
+                                btn.classList.remove('text-gray-500');
+                            }
+                        }
+                        // default tab
+                        window.selectTab = selectTab;
+                        document.addEventListener('click', (e) => {
+                            const tb = e.target.closest('.tab-btn');
+                            if (tb && tb.dataset.tab) {
+                                e.preventDefault();
+                                selectTab(tb.dataset.tab);
+                            }
+                        });
+                        // show patient-management by default on load
+                        document.addEventListener('DOMContentLoaded', () => selectTab('patient-management'));
+                    })();
+                </script>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const openSidebarButton = document.getElementById('open-sidebar');
+            const closeSidebarButton = document.getElementById('close-sidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function openSidebar() {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+
+            openSidebarButton?.addEventListener('click', openSidebar);
+            closeSidebarButton?.addEventListener('click', closeSidebar);
+            overlay?.addEventListener('click', closeSidebar);
+
+            // Optional: Close sidebar when clicking outside on mobile
+            document.getElementById('app')?.addEventListener('click', (e) => {
+                if (window.innerWidth < 768 && !sidebar.contains(e.target) && !openSidebarButton.contains(e.target)) {
+                    closeSidebar();
+                }
+            });
+
+            const dashboardData = {
+                patients: {
+                    antenatal: 42,
+                    malaria: 58,
+                    immunization: 33,
+                    other: 19
+                },
+                stock: [{
+                    name: "Paracetamol 500mg",
+                    qty: 220
+                }, {
+                    name: "RDT Kits",
+                    qty: 35
+                }, {
+                    name: "Amoxicillin",
+                    qty: 0
+                }]
+            };
+
+            const visitCards = document.getElementById("visit-cards");
+            if (visitCards) {
+                visitCards.innerHTML = Object.entries(dashboardData.patients)
+                    .map(([k, v]) => `
+                        <div class="bg-teal-500 p-4 rounded-lg text-white">
+                            <p class="text-sm capitalize">${k}</p>
+                            <p class="text-3xl font-bold">${v}</p>
+                        </div>
+                    `).join("");
+            }
+
+            const stockTable = document.getElementById("stock-table");
+            if (stockTable) {
+                stockTable.innerHTML = dashboardData.stock.map(item =>
+                    `<tr><td class="py-2">${item.name}</td><td>${item.qty}</td><td></td></tr>`
+                ).join("");
+            }
+
+            // API base
+            const API_BASE = 'http://localhost:8000';
+
+            async function registerPatient(payload) {
+                const res = await fetch(`${API_BASE}/patients`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error('Registration failed: ' + res.status + ' ' + txt);
+                }
+                return res.json();
+            }
+
+            async function callTriage(patientId) {
+                const res = await fetch(`${API_BASE}/patients/triage/${patientId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error('Triage failed: ' + res.status + ' ' + txt);
+                }
+                return res.json();
+            }
+
+            // --- Helpers for registration / form ---
+            function parseList(text) {
+                if (!text) return [];
+                return text.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+            }
+
+            function clearForm() {
+                const ids = ['patient-name','patient-age','patient-sex','patient-visit','patient-symptoms','patient-vitals','patient-medical-history'];
+                ids.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (!el) return;
+                    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+                    else el.value = '';
+                });
+                const triage = document.getElementById('triage-result');
+                if (triage) triage.classList.add('hidden');
+            }
+
+            function showSuccessOverlay(patientId) {
+                const overlay = document.getElementById('success-overlay');
+                if (!overlay) return;
+                const idEl = overlay.querySelector('#success-overlay-id');
+                if (idEl) idEl.textContent = patientId ?? 'unknown';
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                // auto-hide after 3s
+                clearTimeout(window._successOverlayTimeout);
+                window._successOverlayTimeout = setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                }, 3000);
+            }
+
+            // --- Start triage (register patient) handler ---
+            async function onStartTriageClick(e) {
+                console.log('onStartTriageClick fired');
+                e?.preventDefault();
+                try {
+                    const name = (document.getElementById('patient-name') || {}).value?.trim() || 'Anonymous';
+                    const age = parseInt((document.getElementById('patient-age') || {}).value, 10) || 0;
+                    const sex = (document.getElementById('patient-sex') || {}).value || 'Male';
+                    const visit_type = (document.getElementById('patient-visit') || {}).value || 'Routine';
+                    const symptoms = parseList((document.getElementById('patient-symptoms') || {}).value || '');
+                    const vitals = (document.getElementById('patient-vitals') || {}).value || '';
+                    const medical_history = parseList((document.getElementById('patient-medical-history') || {}).value || '');
+
+                    if (!name) throw new Error('Name required');
+                    if (age < 0) throw new Error('Age cannot be negative');
+
+                    const payload = { name, age, sex, symptoms, visit_type, vitals, medical_history };
+                    console.log('register payload', payload);
+
+                    const patient = await registerPatient(payload);
+                    console.log('Registered patient', patient);
+                    showSuccessOverlay(patient.id);
+                    clearForm();
+                } catch (err) {
+                    console.error(err);
+                    alert(err.message || 'Error');
+                }
+            }
+
+            // Chat helpers for triage assistant
+            function appendChatMessage(who, text) {
+                const container = document.getElementById('triage-chat');
+                if (!container) return;
+                const wrap = document.createElement('div');
+                wrap.className = who === 'user' ? 'flex justify-end' : 'flex justify-start';
+                const bubble = document.createElement('div');
+                bubble.className = who === 'user'
+                    ? 'max-w-[75%] bg-primary text-white px-3 py-2 rounded-lg rounded-br-none whitespace-pre-wrap'
+                    : 'max-w-[75%] bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 rounded-lg rounded-bl-none whitespace-pre-wrap';
+                bubble.textContent = text;
+                wrap.appendChild(bubble);
+                container.appendChild(wrap);
+                container.scrollTop = container.scrollHeight;
+            }
+
+            function clearChat() {
+                const container = document.getElementById('triage-chat');
+                if (container) container.innerHTML = '';
+            }
+
+            // wire triage chat send
+            document.getElementById('triage-send')?.addEventListener('click', async () => {
+                const input = document.getElementById('triage-input');
+                if (!input) return;
+                const raw = input.value.trim();
+                if (!raw) return alert('Enter patient ID');
+                const patientId = isNaN(Number(raw)) ? raw : Number(raw);
+
+                // show as user message
+                appendChatMessage('user', `Triage request for patient ID: ${patientId}`);
+
+                // show loading
+                const sendBtn = document.getElementById('triage-send');
+                const loading = document.getElementById('triage-loading');
+                sendBtn.disabled = true;
+                if (loading) loading.classList.remove('hidden');
+
+                try {
+                    const res = await callTriage(patientId);
+                    // format assistant response
+                    const actions = (res.recommended_actions || []).join(', ');
+                    const assistantText = `Urgency: ${res.urgency_level}\nActions: ${actions}\nReasoning: ${res.reasoning}`;
+                    appendChatMessage('assistant', assistantText);
+                } catch (err) {
+                    console.error(err);
+                    appendChatMessage('assistant', 'Error: ' + (err.message || 'Request failed'));
+                } finally {
+                    sendBtn.disabled = false;
+                    if (loading) loading.classList.add('hidden');
+                }
+            });
+
+            // allow Enter to send
+            document.getElementById('triage-input')?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('triage-send')?.click();
+                }
+            });
+
+            document.getElementById('triage-clear')?.addEventListener('click', () => clearChat());
+
+            document.getElementById('start-triage')?.addEventListener('click', onStartTriageClick);
+             document.getElementById('open-register')?.addEventListener('click', () => {
+                 // open your registration panel/modal (implement UI action)
+                 alert('Open registration UI (implement)');
+             });
+         });
+     </script>
+ 
+    <!-- Success overlay (shown when registration succeeds) -->
+    <div id="success-overlay" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-40">
+        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow-lg flex items-center space-x-4 cursor-pointer">
+            <div class="w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-700">
+                <span class="material-icons" style="font-size:28px">check</span>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-900 dark:text-text-dark">Logged successfully</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Patient ID: <span id="success-overlay-id" class="font-mono">#</span></p>
+            </div>
+        </div>
+    </div>
+ 
+ </body>
+ 
+ </html>

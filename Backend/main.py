@@ -12,6 +12,24 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Add CORS so frontline.html (served from e.g. http://127.0.0.1:5500) can call the API
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+        "http://127.0.0.1:3000",
+        "http://localhost:3000",
+        "http://127.0.0.1:8000",
+        "http://localhost:8000"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Include your patient router
 app.include_router(patients.router)
 

@@ -1,0 +1,11 @@
+Setting up the frontend server
+
+ cd "c:\Users\USER\Desktop\Datathon 2025\Frontend"
+>> python -m http.server 5500
+
+
+Setting up the backend server
+
+
+cd "c:\Users\USER\Desktop\Datathon 2025\Backend" 
+>> uvicorn main:app --reload --port 8000

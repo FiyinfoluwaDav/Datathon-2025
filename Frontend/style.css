@@ -1,3 +1,42 @@
+/* === Project-specific inline styles moved from HTML into centralized stylesheet === */
+/* - moved from index.html head <style> block (transform rules for data-w-id elements) */
+/* - moved from frontline.html small <style> blocks (.material-icons and body min-height) */
+
+@media (min-width: 992px) {
+    html.w-mod-js:not(.w-mod-ix) [data-w-id="0cac0009-d3ca-d537-b81e-52aaa7d56228"] {
+        -webkit-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        -moz-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        -ms-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+    }
+
+    html.w-mod-js:not(.w-mod-ix) [data-w-id="0cac0009-d3ca-d537-b81e-52aaa7d5622c"] {
+        -webkit-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        -moz-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        -ms-transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+        transform: translate3d(0, 0%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);
+    }
+
+    html.w-mod-js:not(.w-mod-ix) [data-w-id="0cac0009-d3ca-d537-b81e-52aaa7d56230"] {
+        -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);
+        -moz-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);
+        -ms-transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);
+        transform: translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);
+    }
+}
+
+/* frontline.html small moved rules */
+.material-icons, .material-symbols-outlined {
+    font-size: inherit;
+}
+
+/* unify the min-height mentioned in frontline.html */
+body {
+    min-height: max(884px, 100dvh);
+}
+
+/* === end moved-inline-styles === */
+
 html {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -2497,7 +2536,7 @@ img {
         grid-template-columns: 1fr 1fr;
     }
     .about-grid-v3.left-image {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
     .about-image-v3 {
         height: 100%;
@@ -2521,7 +2560,7 @@ img {
         transform: rotate(0);
     }
     .solution-grid-v3 {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
     .solution-wrapper-v3 {
         grid-column-gap: 10px;
@@ -2577,8 +2616,8 @@ img {
         display: none;
     }
     .banner-left-text {
-        grid-column-gap: 80px;
-        grid-row-gap: 80px;
+        grid-column-gap: 60px;
+        grid-row-gap: 60px;
     }
     .banner-text-wrapper {
         grid-column-gap: 16px;
@@ -2631,6 +2670,10 @@ img {
     }
     .solution-heading-wrapper {
         position: static;
+    }
+    .solution-wrapper {
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
     }
     .solution-wrapper._w-60 {
         max-width: none;
@@ -2799,248 +2842,11 @@ img {
     .about-grid-v3.left-image {
         grid-template-columns: 1fr;
     }
-    .about-grid-wrapper-v3 {
-        grid-column-gap: 40px;
-        grid-row-gap: 40px;
-    }
-    .team-section-v3 {
-        padding: 40px 10px;
-    }
-    .team-container-v3 {
-        padding: 40px 14px;
-    }
-    .team-card-v3 {
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
-    }
-    .team-name-wrapper-v3 {
-        grid-column-gap: 4px;
-        grid-row-gap: 4px;
-    }
-    .solution-section-v3 {
-        padding-top: 40px;
-        padding-bottom: 40px;
-    }
-    .footer-section-v3 {
-        padding-top: 40px;
-    }
-    .webflow-link-v3 {
-        font-size: 14px;
-    }
-    .team-list-wrapper-v3 {
-        padding: 20px;
-    }
-    .banner-heading {
-        font-size: 40px;
-    }
-    .page-block {
-        padding: 24px;
-    }
-    .page-card-block {
-        font-size: 18px;
-    }
-    .about-left-grid {
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
-        grid-template-columns: 1fr;
-    }
-    .about-text {
-        grid-column-gap: 8px;
-        grid-row-gap: 8px;
-    }
-}
-@media screen and (max-width: 479px) {
-    h1 {
-        font-size: 40px;
-    }
-    h3 {
-        font-size: 26px;
-    }
-    .container {
-        max-width: none;
-    }
-    .navbar-wrapper {
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-    }
-    .nav-menu-wrapper {
-        margin-left: 6px;
-        margin-right: 6px;
-    }
-    .nav-menu {
-        flex-direction: column;
-    }
-    .menu-button {
-        padding: 0;
-    }
-    .banner-section {
-        padding-bottom: 60px;
-    }
-    .banner-left-text {
-        grid-column-gap: 60px;
-        grid-row-gap: 60px;
-    }
-    .primary-button {
-        padding: 10px 40px;
-    }
-    .about-heading {
-        font-size: 26px;
-    }
-    .about-heading-wrapper.about-heading-wrapper-02 {
-        grid-column-gap: 12px;
-        grid-row-gap: 12px;
-    }
-    .about-grid-wrapper {
-        grid-column-gap: 30px;
-        grid-row-gap: 30px;
-    }
-    .team-grid {
-        grid-template-columns: 1fr;
-    }
-    .solution-grid {
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
-    .solution-heading-wrapper {
-        grid-column-gap: 8px;
-        grid-row-gap: 8px;
-    }
-    .solution-wrapper {
-        grid-column-gap: 6px;
-        grid-row-gap: 6px;
-    }
-    .solution-fill-wrapper {
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
-    }
-    .footer-grid {
-        grid-column-gap: 24px;
-        grid-row-gap: 24px;
-        grid-template-columns: 1fr;
-        margin-bottom: 20px;
-    }
-    .footer-link-block {
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
-    }
-    .footer-social-wrapper {
-        grid-column-gap: 18px;
-        grid-row-gap: 18px;
-    }
-    .about-us-list-grid {
-        grid-row-gap: 16px;
-        grid-template-columns: 1fr;
-    }
-    .banner-center-text {
-        grid-column-gap: 80px;
-        grid-row-gap: 80px;
-    }
-    .help-page-section {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-    .policy-page-section {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
-    .policy-text-list {
-        grid-column-gap: 0;
-        grid-row-gap: 0;
-    }
-    .policy-heading {
-        font-size: 26px;
-    }
-    ._404 {
-        font-size: 130px;
-    }
-    .nav-dropdown-toggle {
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
-    .nav-dropdown-link {
-        flex-flow: column;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .nav-logo-wrapper {
-        width: auto;
-    }
-    .cart-item {
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
-        flex-flow: column;
-    }
-    .cart-list {
-        max-height: none;
-    }
-    .nav-page-dropdown-grid {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-    .section-heading-block {
-        margin-bottom: 20px;
-    }
-    .nav-dropdown-toggle-v2 {
-        padding-top: 14px;
-        padding-bottom: 14px;
-    }
-    .nav-dropdown-link-v2 {
-        flex-flow: column;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .menu-button-v2 {
-        padding: 0;
-    }
-    .banner-section-v2 {
-        padding-top: 140px;
-        padding-bottom: 180px;
-    }
-    .banner-text-wrapper-v2 {
-        grid-column-gap: 50px;
-        grid-row-gap: 50px;
-    }
-    .banner-heading-v2 {
-        font-size: 36px;
-    }
-    .name-wrapper {
-        font-size: 17vw;
-    }
-    .about-us-image-v2 {
-        max-width: 280px;
-    }
-    .nav-dropdown-toggle-v3 {
-        padding-top: 14px;
-        padding-bottom: 14px;
-    }
-    .nav-dropdown-link-v3 {
-        flex-flow: column;
-        justify-content: center;
-        align-items: flex-start;
-    }
-    .menu-button-v3 {
-        padding: 0;
-    }
-    .banner-text-wrapper-v3 {
-        grid-column-gap: 120px;
-        grid-row-gap: 120px;
-    }
-    .banner-bottom-wrapper,
-    .banner-social-wrapper {
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
-    .section-heading-wrapper-v3 {
-        grid-column-gap: 16px;
-        grid-row-gap: 16px;
-        margin-bottom: 20px;
-    }
-    .about-grid-v3 {
-        grid-column-gap: 10px;
-        grid-row-gap: 10px;
+    .about-image-v3 {
+        height: 100%;
     }
     .about-heading-v3 {
-        font-size: 30px;
+        font-size: 34px;
     }
     .about-text-wrapper-v3 {
         grid-column-gap: 12px;
