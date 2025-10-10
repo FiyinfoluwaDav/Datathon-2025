@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from routers import patients
+from routers import auth
 from database import Base, engine
 import models
 
@@ -20,6 +21,8 @@ app.add_middleware(
     allow_origins=[
         "http://127.0.0.1:5500",
         "http://localhost:5500",
+        "http://127.0.0.1:5501", 
+        "http://localhost:5501", 
         "http://127.0.0.1:3000",
         "http://localhost:3000",
         "http://127.0.0.1:8000",
@@ -32,6 +35,7 @@ app.add_middleware(
 
 # Include your patient router
 app.include_router(patients.router)
+app.include_router(auth.router)
 
 @app.get("/")
 def root():

@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-DATABASE_URL = "postgresql://postgres:admin@localhost:5432/datathon"
+DATABASE_URL = "postgresql://postgres:200428@localhost:5432/datathon"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

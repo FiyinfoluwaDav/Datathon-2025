@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PHC Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#1F2937",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#374151",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#4B5563",
+                    },
+                    fontFamily: {
+                        display: ["Roboto", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-icons {
+            font-size: inherit;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="flex h-screen" id="app">
+        <aside class="w-64 bg-white dark:bg-card-dark flex-shrink-0">
+            <div class="flex items-center justify-center p-4 border-b border-border-light dark:border-border-dark">
+                <h1 class="text-xl font-bold text-primary">PHC Admin</h1>
+            </div>
+            <nav class="p-4">
+                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Menu</p>
+                <ul class="mt-2 space-y-2">
+                    <li>
+                        <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg bg-blue-100 dark:bg-blue-900 font-semibold" href="#">
+                            <span class="material-icons mr-3">dashboard</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+                            <span class="material-icons mr-3">people</span>
+                            Users
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#">
+                            <span class="material-icons mr-3">analytics</span>
+                            Analytics
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto bg-gray-50">
+            <header class="bg-white dark:bg-card-dark shadow-sm sticky top-0 z-10">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <h2 class="text-lg font-bold">Welcome, PHC Admin!</h2>
+                        <div class="flex items-center">
+                            <img alt="Admin profile picture" class="rounded-full w-8 h-8" src="https://lh3.googleusercontent.com/a/ACg8ocJ_6Zg-y_3_2_0_0_0=s96-c-mo" />
+                            <span class="ml-2 text-sm font-medium hidden sm:block">Admin User</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="p-4 sm:p-6 lg:p-8">
+                <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                    <h2 class="text-lg font-bold mb-4">Admin Dashboard</h2>
+                    <p>This is the dashboard for PHC Admins. You can add charts, tables, and other components here.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
