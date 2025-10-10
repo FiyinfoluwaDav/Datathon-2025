@@ -228,12 +228,12 @@
                 localStorage.setItem('userRole', data.role);
 
                 if (data.role === 'frontline_worker') {
-                    window.location.href = './Frontend/frontline.html';
+                    window.location.href = './frontline.html';
                 } else if (data.role === 'healthcare_admin') {
-                    window.location.href = './Frontend/phc.html';
+                    window.location.href = './phc.html';
                 } else {
                     // Default redirect if role is not defined or unexpected
-                    window.location.href = './Frontend/dashboard.html';
+                    window.location.href = './dashboard.html';
                 }
             } catch (error) {
                 errorMessage.textContent = error.message;
