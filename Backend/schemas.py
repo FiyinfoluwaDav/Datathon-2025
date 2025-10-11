@@ -72,3 +72,70 @@ class PatientRead(PatientBase):
         # This is essential for compatibility with SQLAlchemy ORM objects.
         # It tells Pydantic to read data from ORM attributes instead of just dictionary keys.
         from_attributes = True
+
+
+class PatientCreateResponse(BaseModel):
+    id: int
+    name: str
+    age: int
+    message: str
+
+
+
+class InventoryItem(BaseModel):
+    item_name: str
+    item_type: str
+    current_stock: int
+    daily_consumption_rate: float
+    unit: str
+    days_remaining: Optional[float]
+
+
+
+
+class RestockRequestCreate(BaseModel):
+    item_name: str
+    quantity_needed: int
+    phc_id: int
+    phc_name: str  # add if you want PHC name stored
+
+
+class RestockRequestRead(RestockRequestCreate):
+    id: int
+    request_date: datetime
+    status: str
+    comments: Optional[str]
+    days_remaining: Optional[float]
+    priority_level: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
+class RestockRequestUpdate(BaseModel):
+    status: str
+    comments: Optional[str] = None
+
+
+
+
+
+
+class RestockRequestCreate(BaseModel):
+    item_name: str
+    quantity_needed: int
+    phc_id: int
+    phc_name: str
+
+class RestockRequestRead(RestockRequestCreate):
+    id: int
+    request_date: datetime
+    status: str
+    comments: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+class RestockRequestUpdate(BaseModel):
+    status: str
+    comments: Optional[str] = None

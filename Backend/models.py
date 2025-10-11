@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, ARRAY, DateTime
+from sqlalchemy import Column, Integer, String, Text, ARRAY, DateTime, Float
 from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import ENUM
@@ -20,6 +20,16 @@ class VisitType(enum.Enum):
 SexEnum = ENUM(Sex, name="sex_enum", create_type=True)
 VisitTypeEnum = ENUM(VisitType, name="visit_type_enum", create_type=True)
 
+
+class PHCUser(Base):
+    __tablename__ = "phc_users"
+
+    id = Column(Integer, primary_key=True, index=True)
+    phc_id = Column(String, unique=True, index=True)
+    phc_name = Column(String, unique=True, index=True)
+    password = Column(String)
+
+
 class Patient(Base):
     """Registered Patients - Demographics and Clinical Data"""
     __tablename__ = "patients"
@@ -34,4 +44,36 @@ class Patient(Base):
     medical_history = Column(ARRAY(String), nullable=True)  # e.g., ['diabetes', 'hypertension']
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    
+
+class Inventory(Base):
+    __tablename__ = "inventory"
+
+    id = Column(Integer, primary_key=True, index=True)
+    phc_id = Column(Integer, nullable=False)
+    phc_name = Column(String, nullable=False)
+    item_name = Column(String, nullable=False)
+    item_type = Column(String, nullable=False)
+    current_stock = Column(Integer, nullable=False)
+    unit = Column(String, nullable=False)
+    daily_consumption_rate = Column(Float, nullable=False)
+    days_remaining = Column(Float, nullable=True)
+    last_updated = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+
+class RestockRequest(Base):
+    __tablename__ = "restock_requests"
+
+    id = Column(Integer, primary_key=True, index=True)
+    item_name = Column(String, nullable=False)
+    quantity_needed = Column(Integer, nullable=False)
+    phc_id = Column(Integer, nullable=False)
+    phc_name = Column(String, nullable=False)
+    request_date = Column(DateTime(timezone=True), server_default=func.now())
+    status = Column(String, default="pending")
+    comments = Column(String, nullable=True)
+
+    # Newly added fields
+    days_remaining = Column(Float, nullable=True)
+    priority_level = Column(String, nullable=True)  # High / Medium / Low
     

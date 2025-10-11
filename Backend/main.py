@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import patients
+from routers import patients, inventory
 from routers import auth
 from database import Base, engine
 import models
@@ -35,6 +35,7 @@ app.add_middleware(
 
 # Include your patient router
 app.include_router(patients.router)
+app.include_router(inventory.router)
 app.include_router(auth.router)
 
 @app.get("/")

@@ -294,37 +294,244 @@
 
                 <!-- Tab: Inventory -->
                 <div id="inventory" class="tab-content hidden">
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-500 dark:text-blue-300">
+                                    <span class="material-icons">inventory_2</span>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Items in Stock</p>
+                                    <p id="total-stock" class="text-2xl font-bold">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-500 dark:text-yellow-300">
+                                    <span class="material-icons">warning</span>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Low-Stock Items</p>
+                                    <p id="low-stock-items" class="text-2xl font-bold">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-300">
+                                    <span class="material-icons">inbox</span>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pending Requests</p>
+                                    <p id="pending-requests" class="text-2xl font-bold">0</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
+                            <div class="flex items-center">
+                                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-500 dark:text-green-300">
+                                    <span class="material-icons">check_circle</span>
+                                </div>
+                                <div class="ml-4">
+                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Approved Requests</p>
+                                    <p id="approved-requests" class="text-2xl font-bold">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Sections -->
                     <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
-                        <h2 class="text-lg font-bold mb-4">Daily Drug Usage</h2>
-                        <form class="grid grid-cols-3 gap-4 items-end">
-                            <div>
-                                <label class="text-sm font-medium">Item (e.g., Paracetamol)</label>
-                                <input class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="text" />
+                        <div class="border-b border-border-light dark:border-border-dark">
+                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                                <button class="inventory-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-primary border-primary" data-tab="inventory-overview">
+                                    Inventory Overview
+                                </button>
+                                <button class="inventory-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 border-transparent" data-tab="restock-requests">
+                                    Restock Requests
+                                </button>
+                            </nav>
+                        </div>
+
+                        <!-- Inventory Overview -->
+                        <div id="inventory-overview" class="inventory-tab-content mt-6">
+                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                                <h2 class="text-lg font-bold">Low Stock Items</h2>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="document.getElementById('update-stock-modal').classList.remove('hidden')" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg flex items-center"><span class="material-icons mr-2">edit</span>Update Stock Levels</button>
+                                    <button class="px-4 py-2 text-sm font-semibold text-primary border border-primary rounded-lg flex items-center"><span class="material-icons mr-2">sync</span>Auto Restock Check</button>
+                                </div>
                             </div>
-                            <div>
-                                <label class="text-sm font-medium">Quantity</label>
-                                <input class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" type="number" />
+                            <div class="flex flex-wrap items-center gap-4 mb-4">
+                                <div class="flex-1">
+                                    <label for="search-item" class="sr-only">Search Item</label>
+                                    <input type="text" id="search-item" placeholder="Search Item..." class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <label for="threshold-days" class="text-sm font-medium">Threshold Days:</label>
+                                    <input type="number" id="threshold-days" value="5" class="w-20 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                    <button class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg flex items-center"><span class="material-icons mr-2">search</span>Check</button>
+                                </div>
                             </div>
-                            <div class="flex space-x-2">
-                                <button class="px-4 py-2 border border-primary text-primary rounded-lg font-semibold w-full">Add Entry</button>
-                                <button class="px-4 py-2 bg-primary text-white rounded-lg font-semibold w-full">Save</button>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-4 py-3 font-medium">Item Name</th>
+                                            <th class="px-4 py-3 font-medium">Type</th>
+                                            <th class="px-4 py-3 font-medium">Current Stock</th>
+                                            <th class="px-4 py-3 font-medium">Daily Usage</th>
+                                            <th class="px-4 py-3 font-medium">Days Remaining</th>
+                                            <th class="px-4 py-3 font-medium">Unit</th>
+                                            <th class="px-4 py-3 font-medium">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="low-stock-table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Restock Requests -->
+                        <div id="restock-requests" class="inventory-tab-content hidden mt-6">
+                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                                <h2 class="text-lg font-bold">All Restock Requests</h2>
+                                <div class="flex items-center space-x-2">
+                                    <select class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                        <option>Status: All</option>
+                                        <option>Pending</option>
+                                        <option>Approved</option>
+                                        <option>Declined</option>
+                                    </select>
+                                    <input type="text" placeholder="Search by PHC or Item..." class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                </div>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="bg-gray-50 dark:bg-gray-700">
+                                        <tr>
+                                            <th class="px-4 py-3 font-medium">Request ID</th>
+                                            <th class="px-4 py-3 font-medium">Item</th>
+                                            <th class="px-4 py-3 font-medium">Quantity</th>
+                                            <th class="px-4 py-3 font-medium">PHC Name</th>
+                                            <th class="px-4 py-3 font-medium">Request Date</th>
+                                            <th class="px-4 py-3 font-medium">Status</th>
+                                            <th class="px-4 py-3 font-medium">Comments</th>
+                                            <th class="px-4 py-3 font-medium">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-border-light dark:border-border-dark">
+                                            <td class="px-4 py-3">101</td>
+                                            <td class="px-4 py-3">Paracetamol</td>
+                                            <td class="px-4 py-3">500</td>
+                                            <td class="px-4 py-3">PHC Ajah</td>
+                                            <td class="px-4 py-3">2025-10-11</td>
+                                            <td class="px-4 py-3"><span class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">Pending</span></td>
+                                            <td class="px-4 py-3">-</td>
+                                            <td class="px-4 py-3"><button onclick="document.getElementById('update-status-modal').classList.remove('hidden')" class="text-primary hover:underline">Approve/Decline</button></td>
+                                        </tr>
+                                        <tr class="border-b border-border-light dark:border-border-dark">
+                                            <td class="px-4 py-3">102</td>
+                                            <td class="px-4 py-3">Syringe</td>
+                                            <td class="px-4 py-3">200</td>
+                                            <td class="px-4 py-3">PHC Lekki</td>
+                                            <td class="px-4 py-3">2025-10-10</td>
+                                            <td class="px-4 py-3"><span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">Approved</span></td>
+                                            <td class="px-4 py-3">Delivered</td>
+                                            <td class="px-4 py-3">-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modals -->
+                <!-- Request Restock Modal -->
+                <div id="request-restock-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-md">
+                        <h3 class="text-lg font-bold mb-4">Request Restock</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Item Name</label>
+                                <input type="text" value="Paracetamol" disabled class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Quantity Needed</label>
+                                <input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">PHC Name</label>
+                                <input type="text" value="PHC Ajah" disabled class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" onclick="document.getElementById('request-restock-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
+                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Submit Request</button>
                             </div>
                         </form>
-                        <h3 class="text-md font-semibold mt-6 mb-2">Current Stock</h3>
-                        <table class="w-full text-sm">
-                            <thead>
-                                <tr class="border-b border-border-light dark:border-border-dark">
-                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Item</th>
-                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Qty</th>
-                                    <th class="text-left font-medium text-gray-500 dark:text-gray-400 py-2">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="stock-table"></tbody>
-                        </table>
-                        <div class="mt-2 p-2 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-lg text-sm text-center">
-                            Paracetamol likely to finish in 4 days
-                        </div>
-                        <button class="mt-4 w-full px-6 py-2 bg-primary text-white rounded-lg font-semibold">Restock Request</button>
+                    </div>
+                </div>
+
+                <!-- Update Stock Modal -->
+                <div id="update-stock-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-lg">
+                        <h3 class="text-lg font-bold mb-4">Update Stock Levels (Daily Usage)</h3>
+                        <form>
+                            <table class="w-full text-sm text-left mb-4">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-2 font-medium">Item Name</th>
+                                        <th class="px-4 py-2 font-medium">Quantity Used (Today)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="px-4 py-2">Paracetamol</td>
+                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Gloves</td>
+                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2">Syringes</td>
+                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" onclick="document.getElementById('update-stock-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
+                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Update Status Modal -->
+                <div id="update-status-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-md">
+                        <h3 class="text-lg font-bold mb-4">Update Restock Request Status</h3>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Status</label>
+                                <select class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
+                                    <option>Approved</option>
+                                    <option>Declined</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Comments</label>
+                                <textarea rows="3" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button type="button" onclick="document.getElementById('update-status-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
+                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Save Changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -639,6 +846,105 @@
             document.getElementById('triage-clear')?.addEventListener('click', () => clearChat());
 
             document.getElementById('start-triage')?.addEventListener('click', onStartTriageClick);
+
+            // --- Inventory Tabs ---
+            document.querySelectorAll('.inventory-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.dataset.tab;
+                    // Hide all content
+                    document.querySelectorAll('.inventory-tab-content').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    // Deactivate all buttons
+                    document.querySelectorAll('.inventory-tab-btn').forEach(b => {
+                        b.classList.remove('text-primary', 'border-primary');
+                        b.classList.add('text-gray-500', 'border-transparent');
+                    });
+                    // Activate selected tab and content
+                    document.getElementById(tabId).classList.remove('hidden');
+                    btn.classList.add('text-primary', 'border-primary');
+                    btn.classList.remove('text-gray-500', 'border-transparent');
+                });
+            });
+
+            // --- Low Stock Table ---
+            const lowStockData = [
+                { name: "Paracetamol", type: "Drug", stock: 45, usage: 10, unit: "Tablets" },
+                { name: "Gloves", type: "Supply", stock: 150, usage: 20, unit: "Pairs" },
+                { name: "Syringes", type: "Supply", stock: 200, usage: 15, unit: "Units" },
+                { name: "Amoxicillin", type: "Drug", stock: 120, usage: 10, unit: "Capsules" }
+            ];
+
+            const lowStockTableBody = document.getElementById('low-stock-table-body');
+
+            function renderLowStockTable() {
+                lowStockTableBody.innerHTML = '';
+                lowStockData.forEach(item => {
+                    const daysRemaining = item.usage > 0 ? Math.floor(item.stock / item.usage) : Infinity;
+                    let colorClass = 'text-green-700 bg-green-100 dark:text-green-100 dark:bg-green-700';
+                    if (daysRemaining <= 5) {
+                        colorClass = 'text-red-700 bg-red-100 dark:text-red-100 dark:bg-red-700';
+                    } else if (daysRemaining <= 10) {
+                        colorClass = 'text-yellow-700 bg-yellow-100 dark:text-yellow-100 dark:bg-yellow-700';
+                    }
+
+                    const row = `
+                        <tr class="border-b border-border-light dark:border-border-dark">
+                            <td class="px-4 py-3">${item.name}</td>
+                            <td class="px-4 py-3">${item.type}</td>
+                            <td class="px-4 py-3">${item.stock}</td>
+                            <td class="px-4 py-3">${item.usage}</td>
+                            <td class="px-4 py-3"><span class="px-2 py-1 font-semibold leading-tight rounded-full ${colorClass}">${daysRemaining} days</span></td>
+                            <td class="px-4 py-3">${item.unit}</td>
+                            <td class="px-4 py-3"><button onclick="document.getElementById('request-restock-modal').classList.remove('hidden')" class="text-primary hover:underline">Request Restock</button></td>
+                        </tr>
+                    `;
+                    lowStockTableBody.innerHTML += row;
+                });
+            }
+
+            renderLowStockTable();
+
+            // --- Summary Cards ---
+            const restockRequestsData = [
+                { id: 101, item: "Paracetamol", quantity: 500, phc: "PHC Ajah", date: "2025-10-11", status: "Pending", comments: "-" },
+                { id: 102, item: "Syringe", quantity: 200, phc: "PHC Lekki", date: "2025-10-10", status: "Approved", comments: "Delivered" }
+            ];
+
+            function updateSummaryCards() {
+                const totalStock = lowStockData.reduce((acc, item) => acc + item.stock, 0);
+                const lowStockItems = lowStockData.filter(item => (item.stock / item.usage) <= 10).length;
+                const pendingRequests = restockRequestsData.filter(req => req.status === 'Pending').length;
+                const approvedRequests = restockRequestsData.filter(req => req.status === 'Approved').length;
+
+                document.getElementById('total-stock').textContent = totalStock;
+                document.getElementById('low-stock-items').textContent = lowStockItems;
+                document.getElementById('pending-requests').textContent = pendingRequests;
+                document.getElementById('approved-requests').textContent = approvedRequests;
+            }
+
+            updateSummaryCards();
+
+            function showToast(id) {
+                const toast = document.getElementById(id);
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
+
+            document.querySelector('#request-restock-modal button[type="submit"]').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('request-restock-modal').classList.add('hidden');
+                showToast('toast-restock-sent');
+            });
+
+            document.querySelector('#update-stock-modal button[type="submit"]').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('update-stock-modal').classList.add('hidden');
+                showToast('toast-stock-updated');
+            });
+
              document.getElementById('open-register')?.addEventListener('click', () => {
                  // open your registration panel/modal (implement UI action)
                  alert('Open registration UI (implement)');
@@ -659,6 +965,15 @@
         </div>
     </div>
  
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-5 right-5 space-y-2">
+        <div id="toast-restock-sent" class="hidden bg-green-500 text-white py-2 px-4 rounded-lg shadow-md">
+            Restock Request Sent
+        </div>
+        <div id="toast-stock-updated" class="hidden bg-green-500 text-white py-2 px-4 rounded-lg shadow-md">
+            Stock Updated Successfully
+        </div>
+    </div>
  </body>
  
  </html>

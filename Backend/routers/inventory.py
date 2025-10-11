@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from typing import List, Optional
+from pydantic import BaseModel
 
 from database import get_db
 from models import Inventory, RestockRequest
@@ -14,6 +15,10 @@ from schemas import (
 )
 
 router = APIRouter(prefix="/inventory", tags=["Inventory & Restock"])
+
+class StockUpdate(BaseModel):
+    item_name: str
+    quantity_used: int
 
 # 1️⃣ Get low-stock items for a PHC
 @router.get("/low-stock", response_model=List[InventoryItem])
@@ -179,3 +184,26 @@ def update_restock_request(
     db.commit()
     db.refresh(request)
     return request
+
+@router.post("/update-stock", status_code=status.HTTP_200_OK)
+def update_stock(
+    updates: List[StockUpdate],
+    db: Session = Depends(get_db),
+    phc_id: int = 1 # Assuming a default PHC ID for now
+):
+    """
+    Updates the stock level for a list of items based on daily usage.
+    """
+    for update in updates:
+        item = db.query(Inventory).filter(
+            Inventory.item_name.ilike(f"%{update.item_name}%"),
+            Inventory.phc_id == phc_id
+        ).first()
+
+        if item:
+            item.current_stock -= update.quantity_used
+            if item.current_stock < 0:
+                item.current_stock = 0
+    
+    db.commit()
+    return {"message": "Stock levels updated successfully."}
