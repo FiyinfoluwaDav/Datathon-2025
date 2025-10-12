@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-DATABASE_URL = "postgresql://postgres:200428@127.0.0.1:5432/hackhealth"
+DATABASE_URL = "postgresql://datafest_user:q7OALn4okhQDlgcNUp78LOp1GujZAOit@dpg-d3luh315pdvs73ar7dmg-a:5432/datafest"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
