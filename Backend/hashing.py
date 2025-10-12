@@ -1,10 +1,14 @@
 from passlib.context import CryptContext
 
-pwd_cxt = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Simple wrapper used by routers/phc_auth.py
+class Hash:
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-class Hash():
-    def hashing(password: str):
-        return pwd_cxt.hash(password)
+    @staticmethod
+    def hashing(password: str) -> str:
+        # Ensure caller trims to 72 chars if needed
+        return Hash.pwd_context.hash(password)
 
-    def verifying(plain_password, hashed_password):
-        return pwd_cxt.verify(plain_password, hashed_password)
+    @staticmethod
+    def verifying(plain_password: str, hashed_password: str) -> bool:
+        return Hash.pwd_context.verify(plain_password, hashed_password)

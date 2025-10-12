@@ -1,10 +1,16 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routers.phc_auth import router as auth_router
 from routers import patients, inventory, workload_monitor, feedback
 from database import Base, engine
 
-
-# Create all tables in the database (if they don't exist)
-Base.metadata.create_all(bind=engine)
+# Attempt to create DB tables but don't let failure prevent server startup
+try:
+	# Create all tables in the database (if they don't exist)
+	Base.metadata.create_all(bind=engine)
+except Exception as e:
+	# Log and continue; per-request DB calls will report errors
+	print("Warning: could not run Base.metadata.create_all at startup:", e)
 
 app = FastAPI(
     title="Hack Health API",
@@ -13,8 +19,6 @@ app = FastAPI(
 )
 
 # Add CORS so frontline.html (served from e.g. http://127.0.0.1:5500) can call the API
-from fastapi.middleware.cors import CORSMiddleware
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -37,12 +41,18 @@ app.include_router(patients.router)
 app.include_router(inventory.router)
 app.include_router(workload_monitor.router)
 app.include_router(feedback.router)
-
+app.include_router(auth_router)
 
 
 @app.get("/")
 def root():
     return {"message": "Welcome to Hack Health API!"}
+
+if __name__ == "__main__":
+    # When developing, run: python main.py
+    # or from project root: uvicorn Backend.main:app --reload --port 8000
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
 
 

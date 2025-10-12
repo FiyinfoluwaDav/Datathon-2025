@@ -227,10 +227,14 @@
                 localStorage.setItem('accessToken', data.access_token);
                 localStorage.setItem('userRole', data.role);
 
-                if (data.role === 'frontline_worker') {
+                // Backend returns role values like "phc" and "health_admin"
+                if (data.role === 'phc') {
                     window.location.href = './frontline.html';
-                } else if (data.role === 'healthcare_admin') {
-                    window.location.href = './phc.html';
+                } else if (data.role === 'health_admin') {
+                    window.location.href = './admin.html';
+                } else if (data.redirect_to) {
+                    // fallback to server hint
+                    window.location.href = data.redirect_to;
                 } else {
                     // Default redirect if role is not defined or unexpected
                     window.location.href = './dashboard.html';
