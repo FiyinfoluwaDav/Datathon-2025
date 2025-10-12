@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>PHC Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        "background-light": "#F8FAFC",
+                        "background-dark": "#1F2937",
+                        "card-light": "#FFFFFF",
+                        "card-dark": "#374151",
+                        "text-light": "#1F2937",
+                        "text-dark": "#F3F4F6",
+                        "border-light": "#E5E7EB",
+                        "border-dark": "#4B5563",
+                    },
+                    fontFamily: {
+                        display: ["Roboto", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .material-icons {
+            font-size: inherit;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+    <div class="flex h-screen" id="app">
+        <aside class="w-64 bg-white dark:bg-card-dark flex-shrink-0">
+            <div class="flex items-center justify-center p-4 border-b border-border-light dark:border-border-dark">
+                <!-- changed PHC Admin -> Health Admin -->
+                <h1 class="text-xl font-bold text-primary">Health Admin</h1>
+            </div>
+            <nav class="p-4">
+                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Menu</p>
+                <ul class="mt-2 space-y-2">
+                    <!-- simplified menu: Home and Sign In, keep restock anchor for the section -->
+                    <li>
+                        <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="index.html">
+                            <span class="material-icons mr-3">home</span>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="login.html">
+                            <span class="material-icons mr-3">login</span>
+                            Sign In
+                        </a>
+                    </li>
+                    <li>
+                        <a id="nav-restock" class="flex items-center p-2 text-sm text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" href="#restock-requests">
+                            <span class="material-icons mr-3">inventory_2</span>
+                            Restock Requests
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto bg-gray-50">
+            <header class="bg-white dark:bg-card-dark shadow-sm sticky top-0 z-10">
+                <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- changed welcome text -->
+                        <h2 class="text-lg font-bold">Welcome, Health Admin!</h2>
+                        <div class="flex items-center">
+                            <img alt="Admin profile picture" class="rounded-full w-8 h-8" src="https://lh3.googleusercontent.com/a/ACg8ocJ_6Zg-y_3_2_0_0_0=s96-c-mo" />
+                            <span class="ml-2 text-sm font-medium hidden sm:block">Admin User</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="p-4 sm:p-6 lg:p-8">
+                <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                    <h2 class="text-lg font-bold mb-4">Admin Dashboard</h2>
+                    <!-- changed PHC Admins -> Health Admins -->
+                    <p>This is the dashboard for Health Admins. You can add charts, tables, and other components here.</p>
+                </div>
+
+                <!-- Restock Requests section -->
+                <section id="restock-requests" class="mt-6">
+                    <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-bold">Restock Requests</h2>
+                            <div class="text-sm text-gray-500">Manage requests from PHCs</div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2 items-center mb-4">
+                            <input id="filter-phc-id" type="number" placeholder="PHC ID" class="px-3 py-2 rounded border w-32" />
+                            <input id="filter-phc-name" type="text" placeholder="PHC Name" class="px-3 py-2 rounded border w-48" />
+                            <button id="filter-btn" class="px-4 py-2 bg-primary text-white rounded">Filter</button>
+                            <button id="clear-filter-btn" class="px-4 py-2 border rounded">Clear</button>
+                            <div class="ml-auto text-sm">Total: <span id="restock-count">0</span></div>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-gray-50">
+                                    <tr class="text-left">
+                                        <th class="px-3 py-2">ID</th>
+                                        <th class="px-3 py-2">Item</th>
+                                        <th class="px-3 py-2">Quantity</th>
+                                        <th class="px-3 py-2">PHC Name</th>
+                                        <th class="px-3 py-2">PHC ID</th>
+                                        <th class="px-3 py-2">Date</th>
+                                        <th class="px-3 py-2">Status</th>
+                                        <th class="px-3 py-2">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="restock-tbody" class="bg-white divide-y divide-gray-100">
+                                    <!-- rows populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function () {
+            const API_BASE = window.API_BASE || 'http://localhost:8000';
+            const restockTbody = document.getElementById('restock-tbody');
+            const restockCount = document.getElementById('restock-count');
+            const filterBtn = document.getElementById('filter-btn');
+            const clearFilterBtn = document.getElementById('clear-filter-btn');
+            const inputPhcId = document.getElementById('filter-phc-id');
+            const inputPhcName = document.getElementById('filter-phc-name');
+
+            const esc = s => s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
+
+            async function fetchRestockRequests() {
+                try {
+                    const res = await fetch(`${API_BASE}/inventory/restock-requests`);
+                    if (!res.ok) throw new Error('Failed to load restock requests');
+                    const data = await res.json();
+                    return Array.isArray(data) ? data : (data.requests || []);
+                } catch (e) {
+                    console.error(e);
+                    alert('Failed to fetch restock requests');
+                    return [];
+                }
+            }
+
+            function renderRows(items) {
+                restockTbody.innerHTML = '';
+                restockCount.textContent = items.length;
+                if (!items.length) {
+                    // mark placeholder so it can be excluded from counts
+                    restockTbody.innerHTML = '<tr data-placeholder><td colspan="8" class="p-3 text-gray-500">No restock requests</td></tr>';
+                    return;
+                }
+                for (const r of items) {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-gray-50';
+                    // tag row with id for easier handling
+                    tr.dataset.requestId = String(r.id);
+                    tr.innerHTML = `<td class="px-3 py-2">${esc(r.id)}</td>
+                                    <td class="px-3 py-2">${esc(r.item || r.item_name || '')}</td>
+                                    <td class="px-3 py-2">${esc(r.quantity || r.quantity_needed || '')}</td>
+                                    <td class="px-3 py-2">${esc(r.phc_name || '')}</td>
+                                    <td class="px-3 py-2">${esc(r.phc_id ?? '')}</td>
+                                    <td class="px-3 py-2">${esc(r.date || r.created_at || '')}</td>
+                                    <td class="px-3 py-2 status-cell">${esc(r.status || r.state || 'pending')}</td>
+                                    <td class="px-3 py-2 space-x-2">
+                                        <button class="approve-btn px-2 py-1 bg-green-600 text-white rounded text-xs">Approve</button>
+                                        <button class="decline-btn px-2 py-1 bg-red-600 text-white rounded text-xs">Decline</button>
+                                    </td>`;
+                    // attach handlers
+                    tr.querySelector('.approve-btn').addEventListener('click', () => onUpdateRequest(r.id, 'approved', tr));
+                    tr.querySelector('.decline-btn').addEventListener('click', () => onUpdateRequest(r.id, 'declined', tr));
+                    restockTbody.appendChild(tr);
+                }
+            }
+
+            async function onUpdateRequest(id, status, rowEl) {
+                // Only ask explicit confirmation for declines
+                if (status === 'declined') {
+                    if (!confirm(`Are you sure you want to decline request ${id}?`)) return;
+                }
+
+                // disable buttons in the row while request is in-flight
+                if (rowEl) {
+                    rowEl.querySelectorAll('button').forEach(b => b.disabled = true);
+                }
+
+                try {
+                    const res = await fetch(`${API_BASE}/inventory/restock-requests/${encodeURIComponent(id)}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status })
+                    });
+                    const js = await res.json().catch(() => ({}));
+                    if (!res.ok) throw new Error(js.message || 'Update failed');
+
+                    // remove the row from the table
+                    if (rowEl && rowEl.parentNode) {
+                        rowEl.parentNode.removeChild(rowEl);
+                    }
+
+                    // recompute displayed total by counting rows that are not placeholders
+                    const remainingRows = restockTbody.querySelectorAll('tr:not([data-placeholder])');
+                    const next = remainingRows.length;
+                    restockCount.textContent = String(next);
+
+                    // if no rows left, show placeholder row (with data-placeholder)
+                    if (next === 0) {
+                        restockTbody.innerHTML = '<tr data-placeholder><td colspan="8" class="p-3 text-gray-500">No restock requests</td></tr>';
+                    }
+
+                    alert(`Request ${id} ${status}`);
+                } catch (e) {
+                    console.error(e);
+                    alert('Failed to update request: ' + (e.message || e));
+                    // re-enable buttons on failure so user can retry
+                    if (rowEl) {
+                        rowEl.querySelectorAll('button').forEach(b => b.disabled = false);
+                    }
+                }
+            }
+
+            async function loadAndRender() {
+                const all = await fetchRestockRequests();
+                const phcId = inputPhcId.value.trim();
+                const phcName = inputPhcName.value.trim().toLowerCase();
+                const filtered = all.filter(r => {
+                    if (phcId && String(r.phc_id) !== String(phcId)) return false;
+                    if (phcName && String(r.phc_name || '').toLowerCase().indexOf(phcName) === -1) return false;
+                    return true;
+                });
+                renderRows(filtered);
+            }
+
+            filterBtn?.addEventListener('click', () => loadAndRender());
+            clearFilterBtn?.addEventListener('click', () => {
+                inputPhcId.value = ''; inputPhcName.value = ''; loadAndRender();
+            });
+
+            // nav anchor scrolling
+            document.getElementById('nav-restock')?.addEventListener('click', (e) => {
+                setTimeout(() => loadAndRender(), 100);
+            });
+
+            // initial load
+            document.addEventListener('DOMContentLoaded', () => { loadAndRender(); });
+        })();
+    </script>
+</body>
+
+</html>
