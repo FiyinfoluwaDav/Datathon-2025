@@ -517,7 +517,7 @@
             }
 
             // API base
-            const API_BASE = 'https://datafest-backendback.onrender.com';
+            const API_BASE = 'http://localhost:8000';
 
             async function registerPatient(payload) {
                 const res = await fetch(`${API_BASE}/patients`, {
@@ -806,7 +806,7 @@
     <script>
         (function () {
             // use existing API_BASE if present
-            const API_BASE = (window.API_BASE || 'https://datafest-backendback.onrender.com');
+            const API_BASE = (window.API_BASE || 'http://localhost:8000');
             // selected PHC id (persisted)
             let SELECTED_PHC_ID = Number(localStorage.getItem('SELECTED_PHC_ID') || 1);
             function setSelectedPhc(id) {

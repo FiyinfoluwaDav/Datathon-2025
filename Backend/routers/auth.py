@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from pydantic.error_wrappers import ValidationError
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
-import jwt
+from jose import jwt
 import os
 import psycopg2
 import psycopg2.extras
