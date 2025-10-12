@@ -294,257 +294,89 @@
 
                 <!-- Tab: Inventory -->
                 <div id="inventory" class="tab-content hidden">
-                    <!-- Summary Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
-                            <div class="flex items-center">
-                                <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-500 dark:text-blue-300">
-                                    <span class="material-icons">inventory_2</span>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Items in Stock</p>
-                                    <p id="total-stock" class="text-2xl font-bold">0</p>
-                                </div>
+                    <!-- Dashboard: Inventory + Workload + Feedback (from dashboard.html) -->
+                    <section id="dash-inventory" class="bg-white dark:bg-card-dark p-4 rounded shadow">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-medium">Inventory</h2>
+                            <div class="flex items-center gap-2">
+                                <button id="open-add-btn" class="bg-green-600 text-white px-3 py-1 rounded">Add Item</button>
+                                <button id="show-lowstock-btn" class="bg-yellow-600 text-white px-3 py-1 rounded">Show Low Stock</button>
+                                <input id="threshold-days" type="number" min="1" value="5" class="w-20 px-2 py-1 rounded border" title="Threshold days" />
+                                <button id="create-restock-btn" class="bg-indigo-600 text-white px-3 py-1 rounded">Create Restock Requests</button>
                             </div>
-                        </div>
-                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
-                            <div class="flex items-center">
-                                <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-500 dark:text-yellow-300">
-                                    <span class="material-icons">warning</span>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Low-Stock Items</p>
-                                    <p id="low-stock-items" class="text-2xl font-bold">0</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
-                            <div class="flex items-center">
-                                <div class="p-3 rounded-full bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-300">
-                                    <span class="material-icons">inbox</span>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pending Requests</p>
-                                    <p id="pending-requests" class="text-2xl font-bold">0</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow">
-                            <div class="flex items-center">
-                                <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 text-green-500 dark:text-green-300">
-                                    <span class="material-icons">check_circle</span>
-                                </div>
-                                <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Approved Requests</p>
-                                    <p id="approved-requests" class="text-2xl font-bold">0</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Inventory Sections -->
-                    <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
-                        <div class="border-b border-border-light dark:border-border-dark">
-                            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                                <button class="inventory-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-primary border-primary" data-tab="inventory-overview">
-                                    Inventory Overview
-                                </button>
-                                <button class="inventory-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 border-transparent" data-tab="restock-requests">
-                                    Restock Requests
-                                </button>
-                            </nav>
                         </div>
 
-                        <!-- Inventory Overview -->
-                        <div id="inventory-overview" class="inventory-tab-content mt-6">
-                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-                                <h2 class="text-lg font-bold">Low Stock Items</h2>
-                                <div class="flex items-center space-x-2">
-                                    <button onclick="document.getElementById('update-stock-modal').classList.remove('hidden')" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg flex items-center"><span class="material-icons mr-2">edit</span>Update Stock Levels</button>
-                                    <button class="px-4 py-2 text-sm font-semibold text-primary border border-primary rounded-lg flex items-center"><span class="material-icons mr-2">sync</span>Auto Restock Check</button>
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap items-center gap-4 mb-4">
-                                <div class="flex-1">
-                                    <label for="search-item" class="sr-only">Search Item</label>
-                                    <input type="text" id="search-item" placeholder="Search Item..." class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <label for="threshold-days" class="text-sm font-medium">Threshold Days:</label>
-                                    <input type="number" id="threshold-days" value="5" class="w-20 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
-                                    <button class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg flex items-center"><span class="material-icons mr-2">search</span>Check</button>
-                                </div>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                    <thead class="bg-gray-50 dark:bg-gray-700">
-                                        <tr>
-                                            <th class="px-4 py-3 font-medium">Item Name</th>
-                                            <th class="px-4 py-3 font-medium">Type</th>
-                                            <th class="px-4 py-3 font-medium">Current Stock</th>
-                                            <th class="px-4 py-3 font-medium">Daily Usage</th>
-                                            <th class="px-4 py-3 font-medium">Days Remaining</th>
-                                            <th class="px-4 py-3 font-medium">Unit</th>
-                                            <th class="px-4 py-3 font-medium">Actions</th>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="md:col-span-2 overflow-x-auto">
+                                <table class="min-w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr class="text-left">
+                                            <th class="px-3 py-2">Item</th>
+                                            <th class="px-3 py-2">Type</th>
+                                            <th class="px-3 py-2">Stock</th>
+                                            <th class="px-3 py-2">Daily</th>
+                                            <th class="px-3 py-2">Days Left</th>
+                                            <th class="px-3 py-2">Unit</th>
+                                            <th class="px-3 py-2">Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="low-stock-table-body">
-                                    </tbody>
+                                    <tbody id="inventory-tbody" class="bg-white divide-y divide-gray-100"></tbody>
                                 </table>
-                            </div>
-                        </div>
 
-                        <!-- Restock Requests -->
-                        <div id="restock-requests" class="inventory-tab-content hidden mt-6">
-                            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-                                <h2 class="text-lg font-bold">All Restock Requests</h2>
-                                <div class="flex items-center space-x-2">
-                                    <select class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
-                                        <option>Status: All</option>
-                                        <option>Pending</option>
-                                        <option>Approved</option>
-                                        <option>Declined</option>
-                                    </select>
-                                    <input type="text" placeholder="Search by PHC or Item..." class="rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
+                                <div class="flex items-center justify-between mt-3">
+                                    <div class="text-sm">Total items: <span id="total-items">0</span></div>
+                                    <div class="flex items-center gap-2">
+                                        <button id="prev-page" class="px-3 py-1 rounded border bg-white">Prev</button>
+                                        <span id="page-info" class="text-sm"></span>
+                                        <button id="next-page" class="px-3 py-1 rounded border bg-white">Next</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left">
-                                    <thead class="bg-gray-50 dark:bg-gray-700">
-                                        <tr>
-                                            <th class="px-4 py-3 font-medium">Request ID</th>
-                                            <th class="px-4 py-3 font-medium">Item</th>
-                                            <th class="px-4 py-3 font-medium">Quantity</th>
-                                            <th class="px-4 py-3 font-medium">PHC Name</th>
-                                            <th class="px-4 py-3 font-medium">Request Date</th>
-                                            <th class="px-4 py-3 font-medium">Status</th>
-                                            <th class="px-4 py-3 font-medium">Comments</th>
-                                            <th class="px-4 py-3 font-medium">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="border-b border-border-light dark:border-border-dark">
-                                            <td class="px-4 py-3">101</td>
-                                            <td class="px-4 py-3">Paracetamol</td>
-                                            <td class="px-4 py-3">500</td>
-                                            <td class="px-4 py-3">PHC Ajah</td>
-                                            <td class="px-4 py-3">2025-10-11</td>
-                                            <td class="px-4 py-3"><span class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">Pending</span></td>
-                                            <td class="px-4 py-3">-</td>
-                                            <td class="px-4 py-3"><button onclick="document.getElementById('update-status-modal').classList.remove('hidden')" class="text-primary hover:underline">Approve/Decline</button></td>
-                                        </tr>
-                                        <tr class="border-b border-border-light dark:border-border-dark">
-                                            <td class="px-4 py-3">102</td>
-                                            <td class="px-4 py-3">Syringe</td>
-                                            <td class="px-4 py-3">200</td>
-                                            <td class="px-4 py-3">PHC Lekki</td>
-                                            <td class="px-4 py-3">2025-10-10</td>
-                                            <td class="px-4 py-3"><span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">Approved</span></td>
-                                            <td class="px-4 py-3">Delivered</td>
-                                            <td class="px-4 py-3">-</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+
+                            <aside class="bg-gray-50 p-3 rounded">
+                                <h3 class="font-medium mb-2">Summary</h3>
+                                <div class="mb-2">Low stock items: <strong id="lowstock-count">0</strong></div>
+                                <div>Pending restock requests: <strong id="pending-reqs">0</strong></div>
+                                <div class="mt-3 text-sm text-gray-600">Click Request to create a single restock request for an item.</div>
+                            </aside>
                         </div>
-                    </div>
-                </div>
+                    </section>
 
-                <!-- Modals -->
-                <!-- Request Restock Modal -->
-                <div id="request-restock-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-md">
-                        <h3 class="text-lg font-bold mb-4">Request Restock</h3>
-                        <form>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1">Item Name</label>
-                                <input type="text" value="Paracetamol" disabled class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1">Quantity Needed</label>
-                                <input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1">PHC Name</label>
-                                <input type="text" value="PHC Ajah" disabled class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
-                            </div>
-                            <div class="flex justify-end space-x-2">
-                                <button type="button" onclick="document.getElementById('request-restock-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
-                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Submit Request</button>
-                            </div>
+                    <!-- Workload panel (from dashboard) -->
+                    <section id="dash-workload" class="panel bg-white dark:bg-card-dark p-4 rounded shadow mt-6">
+                        <h2 class="text-lg font-medium mb-2">Workload</h2>
+                        <form id="workload-log-form" class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                            <input id="w-date" type="date" class="px-2 py-1 border rounded" />
+                            <input id="w-count" type="number" placeholder="Patients seen" class="px-2 py-1 border rounded" />
+                            <input id="w-queue" type="number" placeholder="Current queue" class="px-2 py-1 border rounded" />
+                            <input id="w-wait" type="number" step="0.1" placeholder="Avg wait (mins)" class="px-2 py-1 border rounded" />
+                            <input id="w-completed" type="number" placeholder="Completed visits today" class="px-2 py-1 border rounded" />
+                            <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded">Log</button>
                         </form>
-                    </div>
-                </div>
 
-                <!-- Update Stock Modal -->
-                <div id="update-stock-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-lg">
-                        <h3 class="text-lg font-bold mb-4">Update Stock Levels (Daily Usage)</h3>
-                        <form>
-                            <table class="w-full text-sm text-left mb-4">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-2 font-medium">Item Name</th>
-                                        <th class="px-4 py-2 font-medium">Quantity Used (Today)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="px-4 py-2">Paracetamol</td>
-                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-2">Gloves</td>
-                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-2">Syringes</td>
-                                        <td class="px-4 py-2"><input type="number" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="flex justify-end space-x-2">
-                                <button type="button" onclick="document.getElementById('update-stock-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
-                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Update Status Modal -->
-                <div id="update-status-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-                    <div class="bg-white dark:bg-card-dark rounded-lg shadow-lg p-6 w-full max-w-md">
-                        <h3 class="text-lg font-bold mb-4">Update Restock Request Status</h3>
-                        <form>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1">Status</label>
-                                <select class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700">
-                                    <option>Approved</option>
-                                    <option>Declined</option>
-                                </select>
-                            </div>
-                            <div class="mb-4">
-                                <label class="block text-sm font-medium mb-1">Comments</label>
-                                <textarea rows="3" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700"></textarea>
-                            </div>
-                            <div class="flex justify-end space-x-2">
-                                <button type="button" onclick="document.getElementById('update-status-modal').classList.add('hidden')" class="px-4 py-2 text-sm font-semibold text-gray-700 dark:text-gray-200 border rounded-lg">Cancel</button>
-                                <button type="submit" class="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-lg">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Tab: Visits -->
-                <div id="visits" class="tab-content hidden">
-                    <div class="bg-white dark:bg-card-dark p-6 rounded-lg shadow">
-                        <h2 class="text-lg font-bold mb-4">Visits Summary</h2>
-                        <div id="visit-cards" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"></div>
-                        <div class="grid grid-cols-2 gap-4 mt-6 h-48">
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">Bar chart</div>
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">Pie chart</div>
+                        <div class="flex gap-3 items-center mb-3">
+                            <input id="forecast-phc-id" type="number" value="1" class="px-2 py-1 border rounded w-28" />
+                            <button id="forecast-btn" class="bg-indigo-600 text-white px-3 py-1 rounded">Forecast Next Day</button>
                         </div>
-                    </div>
+
+                        <div id="forecast-result" class="text-sm text-gray-800"></div>
+                    </section>
+
+                    <!-- Feedback panel (from dashboard) -->
+                    <section id="dash-feedback" class="panel bg-white dark:bg-card-dark p-4 rounded shadow mt-6">
+                        <h2 class="text-lg font-medium mb-2">Feedback</h2>
+                        <form id="feedback-form" class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">
+                            <input id="f-phc-id" type="number" placeholder="PHC ID" class="px-2 py-1 border rounded" value="1" />
+                            <input id="f-title" placeholder="Title" class="px-2 py-1 border rounded" />
+                            <textarea id="f-body" placeholder="Feedback details" class="col-span-2 px-2 py-1 border rounded"></textarea>
+                            <div class="col-span-2 flex justify-end gap-2">
+                                <button type="submit" class="bg-indigo-600 text-white px-3 py-1 rounded">Submit</button>
+                                <button id="load-feedback" type="button" class="bg-gray-200 px-3 py-1 rounded">Load for PHC</button>
+                            </div>
+                        </form>
+
+                        <div id="feedback-list" class="space-y-2 text-sm"></div>
+                    </section>
                 </div>
 
                 <!-- Tab: Reports -->
@@ -604,7 +436,7 @@
                             });
                             const el = document.getElementById(name);
                             if (el) el.classList.remove('hidden');
-                            const btn = document.querySelector('.tab-btn[data-tab="'+name+'"]');
+                            const btn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
                             if (btn) {
                                 btn.classList.add('text-primary', 'border-b-2', 'border-primary');
                                 btn.classList.remove('text-gray-500');
@@ -727,7 +559,7 @@
             }
 
             function clearForm() {
-                const ids = ['patient-name','patient-age','patient-sex','patient-visit','patient-symptoms','patient-vitals','patient-medical-history'];
+                const ids = ['patient-name', 'patient-age', 'patient-sex', 'patient-visit', 'patient-symptoms', 'patient-vitals', 'patient-medical-history'];
                 ids.forEach(id => {
                     const el = document.getElementById(id);
                     if (!el) return;
@@ -945,13 +777,13 @@
                 showToast('toast-stock-updated');
             });
 
-             document.getElementById('open-register')?.addEventListener('click', () => {
-                 // open your registration panel/modal (implement UI action)
-                 alert('Open registration UI (implement)');
-             });
-         });
-     </script>
- 
+            document.getElementById('open-register')?.addEventListener('click', () => {
+                // open your registration panel/modal (implement UI action)
+                alert('Open registration UI (implement)');
+            });
+        });
+    </script>
+
     <!-- Success overlay (shown when registration succeeds) -->
     <div id="success-overlay" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-40">
         <div class="bg-white dark:bg-card-dark p-5 rounded-lg shadow-lg flex items-center space-x-4 cursor-pointer">
@@ -964,7 +796,7 @@
             </div>
         </div>
     </div>
- 
+
     <!-- Toast Notifications -->
     <div id="toast-container" class="fixed bottom-5 right-5 space-y-2">
         <div id="toast-restock-sent" class="hidden bg-green-500 text-white py-2 px-4 rounded-lg shadow-md">
@@ -974,6 +806,190 @@
             Stock Updated Successfully
         </div>
     </div>
- </body>
- 
- </html>
+
+    <!-- Inventory / Workload / Feedback script (wires dashboard behaviour inside frontline) -->
+    <script>
+        (function () {
+            // use existing API_BASE if present
+            const API_BASE = (window.API_BASE || 'http://localhost:8000');
+            const DEFAULT_PHC_ID = 1;
+            let currentPage = 1;
+            const PAGE_SIZE = 50;
+
+            const esc = s => s ? String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])) : '';
+
+            const tbody = document.getElementById('inventory-tbody');
+            const totalEl = document.getElementById('total-items');
+            const lowstockEl = document.getElementById('lowstock-count');
+            const pendingEl = document.getElementById('pending-reqs');
+            const pageInfo = document.getElementById('page-info');
+
+            document.getElementById('open-add-btn')?.addEventListener('click', () => document.getElementById('add-modal').classList.remove('hidden'));
+            document.getElementById('close-add-btn')?.addEventListener('click', () => document.getElementById('add-modal').classList.add('hidden'));
+            document.getElementById('prev-page')?.addEventListener('click', () => { if (currentPage > 1) loadInventory(currentPage - 1); });
+            document.getElementById('next-page')?.addEventListener('click', () => { const pages = Math.max(1, Math.ceil((+totalEl.textContent || 0) / PAGE_SIZE)); if (currentPage < pages) loadInventory(currentPage + 1); });
+            document.getElementById('show-lowstock-btn')?.addEventListener('click', showLowStock);
+            document.getElementById('create-restock-btn')?.addEventListener('click', createRestockForThreshold);
+
+            document.getElementById('add-item-form')?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const payload = {
+                    item_name: document.getElementById('f-item-name').value.trim(),
+                    item_type: document.getElementById('f-item-type').value.trim() || undefined,
+                    add_quantity: Number(document.getElementById('f-qty').value) || 0,
+                    daily_consumption_rate: Number(document.getElementById('f-daily').value) || 0,
+                    unit: document.getElementById('f-unit').value.trim() || undefined,
+                    phc_id: DEFAULT_PHC_ID,
+                    phc_name: 'PHC A'
+                };
+                try {
+                    const res = await fetch(API_BASE + '/inventory/add-item', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!res.ok) throw new Error('Save failed');
+                    await Promise.all([loadInventory(currentPage), refreshSummary()]);
+                    document.getElementById('add-modal').classList.add('hidden');
+                } catch (e) { console.error(e); alert('Failed to save item'); }
+            });
+
+            async function loadInventory(page = 1) {
+                currentPage = page;
+                try {
+                    const res = await fetch(`${API_BASE}/inventory/items?page=${page}&page_size=${PAGE_SIZE}&phc_id=${DEFAULT_PHC_ID}`);
+                    if (!res.ok) throw new Error('Failed to load');
+                    const json = await res.json();
+                    totalEl.textContent = json.total ?? 0;
+                    renderInventory(json.items || []);
+                    const pages = Math.max(1, Math.ceil((json.total || 0) / PAGE_SIZE));
+                    pageInfo.textContent = `Page ${currentPage} / ${pages}`;
+                } catch (e) {
+                    console.error(e);
+                    if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-red-600">Error loading inventory</td></tr>';
+                }
+            }
+
+            function renderInventory(items) {
+                if (!tbody) return;
+                tbody.innerHTML = '';
+                if (!items.length) { tbody.innerHTML = '<tr><td colspan="7" class="p-3 text-gray-500">No items</td></tr>'; return; }
+                for (const it of items) {
+                    const days = (it.days_remaining !== null && it.days_remaining !== undefined) ? it.days_remaining : '-';
+                    const tr = document.createElement('tr'); tr.className = 'hover:bg-gray-50';
+                    tr.innerHTML = `<td class="px-3 py-2">${esc(it.item_name)}</td><td class="px-3 py-2">${esc(it.item_type || '')}</td>
+                      <td class="px-3 py-2">${it.current_stock ?? 0}</td><td class="px-3 py-2">${it.daily_consumption_rate ?? '-'}</td>
+                      <td class="px-3 py-2">${days}</td><td class="px-3 py-2">${esc(it.unit || '')}</td>
+                      <td class="px-3 py-2"><button class="text-indigo-600 hover:underline btn-request">Request</button></td>`;
+                    tr.querySelector('.btn-request').addEventListener('click', () => requestRestock(it));
+                    tbody.appendChild(tr);
+                }
+            }
+
+            async function requestRestock(item) {
+                const suggested = item.daily_consumption_rate ? Math.max(1, Math.round(item.daily_consumption_rate * 7)) : Math.max(1, item.current_stock || 1);
+                const payload = { item_name: item.item_name, quantity_needed: suggested, phc_id: item.phc_id || DEFAULT_PHC_ID, phc_name: item.phc_name || 'PHC A' };
+                try {
+                    const res = await fetch(API_BASE + '/inventory/restock-requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!res.ok) throw new Error('Request failed');
+                    await refreshSummary(); alert('Restock requested');
+                } catch (e) { console.error(e); alert('Failed to create restock request'); }
+            }
+
+            async function showLowStock() {
+                const thr = Number(document.getElementById('threshold-days').value) || 5;
+                try {
+                    const res = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`);
+                    if (!res.ok) throw new Error('Failed');
+                    const items = await res.json();
+                    renderInventory(items);
+                    lowstockEl.textContent = items.length ?? 0;
+                } catch (e) { console.error(e); alert('Error fetching low stock'); }
+            }
+
+            async function createRestockForThreshold() {
+                const thr = Number(document.getElementById('threshold-days').value) || 5;
+                try {
+                    const res = await fetch(`${API_BASE}/inventory/create-restock-for-threshold?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`, { method: 'POST' });
+                    if (!res.ok) { const txt = await res.text(); throw new Error(txt || 'Failed'); }
+                    const json = await res.json();
+                    alert((json.created ?? 0) + ' requests created');
+                    await refreshSummary(); await loadInventory(currentPage);
+                } catch (e) { console.error(e); alert('Error creating requests'); }
+            }
+
+            async function refreshSummary() {
+                try {
+                    const resTotal = await fetch(`${API_BASE}/inventory/items?page=1&page_size=1&phc_id=${DEFAULT_PHC_ID}`);
+                    if (resTotal.ok) { const js = await resTotal.json(); totalEl.textContent = js.total ?? 0; }
+                    const thr = Number(document.getElementById('threshold-days').value) || 5;
+                    const resLow = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`);
+                    if (resLow.ok) { const low = await resLow.json(); lowstockEl.textContent = low.length ?? 0; }
+                    const resReq = await fetch(`${API_BASE}/inventory/restock-requests`);
+                    if (resReq.ok) { const reqs = await resReq.json(); pendingEl.textContent = reqs.filter(r => r.status === 'pending').length; }
+                } catch (e) { console.error('summary refresh failed', e); }
+            }
+
+            /* Workload handlers */
+            document.getElementById('workload-log-form')?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const payload = {
+                    phc_id: DEFAULT_PHC_ID,
+                    date: document.getElementById('w-date').value || undefined,
+                    patient_count: Number(document.getElementById('w-count').value) || 0,
+                    current_queue_count: Number(document.getElementById('w-queue').value) || 0,
+                    avg_wait_time: Number(document.getElementById('w-wait').value) || 0,
+                    completed_visits_today: Number(document.getElementById('w-completed').value) || 0
+                };
+                try {
+                    const res = await fetch(API_BASE + '/workload/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const js = await res.json();
+                    document.getElementById('forecast-result').textContent = res.ok ? 'Logged workload.' : `Error: ${JSON.stringify(js)}`;
+                } catch (e) { console.error(e); alert('Failed to log workload'); }
+            });
+
+            document.getElementById('forecast-btn')?.addEventListener('click', async () => {
+                const phc = Number(document.getElementById('forecast-phc-id').value) || DEFAULT_PHC_ID;
+                try {
+                    const res = await fetch(`${API_BASE}/workload/forecast/${phc}`, { method: 'POST' });
+                    const js = await res.json();
+                    if (!res.ok) { document.getElementById('forecast-result').textContent = 'Forecast error: ' + JSON.stringify(js); return; }
+                    document.getElementById('forecast-result').textContent = `Forecast: ${JSON.stringify(js)}`;
+                } catch (e) { console.error(e); alert('Forecast failed'); }
+            });
+
+            /* Feedback */
+            document.getElementById('feedback-form')?.addEventListener('submit', async e => {
+                e.preventDefault();
+                const phcId = Number(document.getElementById('f-phc-id').value) || DEFAULT_PHC_ID;
+                const title = document.getElementById('f-title').value.trim();
+                const body = document.getElementById('f-body').value.trim();
+                const payload = { phc_id: phcId, phc_name: 'PHC A', category: 'General', title: title, message: body };
+                try {
+                    const res = await fetch(API_BASE + '/feedback/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    const js = await res.json();
+                    if (res.ok) {
+                        alert('Feedback submitted');
+                        document.getElementById('feedback-list').insertAdjacentHTML('afterbegin', `<div class="p-2 border rounded"><strong>${esc(js.title || payload.title)}</strong><div class="text-sm">${esc(js.message || payload.message)}</div></div>`);
+                    } else {
+                        alert('Feedback error: ' + JSON.stringify(js));
+                    }
+                } catch (e) { console.error(e); alert('Failed to submit feedback'); }
+            });
+
+            document.getElementById('load-feedback')?.addEventListener('click', async () => {
+                const phc = Number(document.getElementById('f-phc-id').value) || DEFAULT_PHC_ID;
+                try {
+                    const res = await fetch(`${API_BASE}/feedback/${phc}`);
+                    const js = await res.json();
+                    const list = document.getElementById('feedback-list');
+                    list.innerHTML = '';
+                    if (Array.isArray(js)) js.forEach(f => list.insertAdjacentHTML('beforeend', `<div class="p-2 border rounded"><strong>${esc(f.title || '')}</strong><div class="text-sm">${esc(f.body || '')}</div></div>`));
+                    else list.textContent = JSON.stringify(js);
+                } catch (e) { console.error(e); alert('Failed to load feedback'); }
+            });
+
+            // initialize
+            (async function init() { await Promise.all([refreshSummary(), loadInventory(1)]); })();
+        })();
+    </script>
+
+</body>
+
+</html>

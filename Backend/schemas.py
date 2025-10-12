@@ -17,27 +17,38 @@ class VisitType(str, enum.Enum):
     FollowUp = "Follow-up"
 
 
+
+
+class PHCAccount(BaseModel):
+    phc_id: str
+    phc_name: str
+    password: str
+
+class PHCLogin(BaseModel):
+    phc_id: str
+    password: str
+
+
+
 class PatientBase(BaseModel):
     """
     Base schema defining the shared fields for Patient creation and reading.
     Fields correspond directly to the database columns (excluding DB-managed fields).
     """
     name: str = Field(..., max_length=255, description="Patient's full name.")
-    # allow 0 (use ge=0) if newborns/zero age allowed; keep gt=0 if you require >0
-    age: int = Field(..., ge=0, description="Patient's age in years.")
+    age: int = Field(..., gt=0, description="Patient's age in years.")
     sex: Sex = Field(..., description="Biological sex (Male or Female).")
-     
+    
     # Note: Pydantic handles the List[str] conversion from JSON array input,
     # which maps to ARRAY(String) in PostgreSQL/SQLAlchemy.
-    symptoms: List[str] = Field(default_factory=list, description="List of raw symptoms reported by the patient.")
+    symptoms: List[str] = Field(..., description="List of raw symptoms reported by the patient.")
     visit_type: VisitType = Field(..., description="Triage category/intent for the visit.")
 
     # Vitals is stored as a JSON string in the DB (Text), so we validate it as a string here.
     # In a more advanced setup, this could be a nested Pydantic model (e.g., VitalsModel).
     vitals: Optional[str] = Field(None, description="Vitals data, stored as a JSON string (e.g., '{\"temp\": 37.0}').")
     
-    # default to empty list so missing key is OK
-    medical_history: List[str] = Field(default_factory=list, description="List of known past medical conditions.")
+    medical_history: Optional[List[str]] = Field(None, description="List of known past medical conditions.")
 
 # --- 3. Schemas for API Operations ---
 
@@ -72,7 +83,6 @@ class PatientRead(PatientBase):
         # This is essential for compatibility with SQLAlchemy ORM objects.
         # It tells Pydantic to read data from ORM attributes instead of just dictionary keys.
         from_attributes = True
-
 
 class PatientCreateResponse(BaseModel):
     id: int
@@ -139,3 +149,54 @@ class RestockRequestRead(RestockRequestCreate):
 class RestockRequestUpdate(BaseModel):
     status: str
     comments: Optional[str] = None
+
+
+class WorkloadLogCreate(BaseModel):
+    phc_id: int
+    current_queue_count: int
+    avg_wait_time: float
+    completed_visits_today: int
+
+class WorkloadForecastResponse(BaseModel):
+    forecast_next_day: float
+    capacity: int
+    overload_days: int
+    message: str
+
+class WorkloadLogResponse(BaseModel):
+    id: int
+    phc_id: int
+    date: datetime
+    current_queue_count: int
+    avg_wait_time: float
+    completed_visits_today: int
+
+    class Config:
+        orm_mode = True
+
+
+
+
+
+class FeedbackCreate(BaseModel):
+    phc_id: int
+    phc_name: str
+    category: str
+    message: str
+
+
+class FeedbackUpdate(BaseModel):
+    status: str  # pending / resolved / in-progress
+
+
+class FeedbackRead(BaseModel):
+    id: int
+    phc_id: int
+    phc_name: str
+    category: str
+    message: str
+    status: str
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

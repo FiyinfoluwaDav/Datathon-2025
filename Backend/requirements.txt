@@ -8,3 +8,6 @@ psycopg2-binary
 alembic
 google-genai
 PyJWT
+numpy
+scikit-learn
+apscheduler

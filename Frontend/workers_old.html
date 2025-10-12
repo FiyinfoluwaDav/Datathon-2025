@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Medisense Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1d4ed8",
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0f172a",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1e293b",
+                        "text-light": "#334155",
+                        "text-dark": "#cbd5e1",
+                        "text-light-secondary": "#64748b",
+                        "text-dark-secondary": "#94a3b8",
+                        "border-light": "#e2e8f0",
+                        "border-dark": "#334155",
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        .material-icons {
+            font-size: inherit;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-text-light dark:text-text-dark">
+<div class="p-6">
+<header class="flex justify-between items-center mb-6">
+<h1 class="text-2xl font-bold text-text-light dark:text-text-dark">Medisense Analytics</h1>
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-2 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg px-3 py-2">
+<span class="text-text-light-secondary dark:text-text-dark-secondary">Country</span>
+<span class="font-semibold text-text-light dark:text-text-dark">Nigeria</span>
+<span class="material-icons text-text-light-secondary dark:text-text-dark-secondary">expand_more</span>
+</div>
+<div class="flex items-center space-x-2 bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-lg px-3 py-2">
+<span class="text-text-light-secondary dark:text-text-dark-secondary">Time</span>
+<span class="font-semibold text-text-light dark:text-text-dark">Last 7 days</span>
+<span class="material-icons text-text-light-secondary dark:text-text-dark-secondary">calendar_today</span>
+</div>
+<div class="flex items-center space-x-1 bg-blue-100 dark:bg-blue-900/50 p-1 rounded-lg">
+<button class="px-3 py-1 rounded-md bg-white dark:bg-primary text-primary dark:text-white font-semibold text-sm">English</button>
+<button class="px-3 py-1 rounded-md text-blue-800 dark:text-blue-200 font-semibold text-sm">Français</button>
+<button class="px-3 py-1 rounded-md text-blue-800 dark:text-blue-200 font-semibold text-sm">Swahili</button>
+<button class="px-3 py-1 rounded-md text-blue-800 dark:text-blue-200 font-semibold text-sm">Hausa</button>
+</div>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">inventory_2</span>
+                    Active PHCs
+                </div>
+<p class="text-3xl font-bold text-text-light dark:text-text-dark">1,284</p>
+<p class="text-sm text-green-500">+3.4% vs last period</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">groups</span>
+                    Staff-to-Patient Ratio
+                </div>
+<p class="text-3xl font-bold text-text-light dark:text-text-dark">1:42</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Target: 1: 35</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">medication</span>
+                    Drug Availability
+                </div>
+<p class="text-3xl font-bold text-text-light dark:text-text-dark">86%</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Essential stock within threshold</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">trending_up</span>
+                    Disease Trend
+                </div>
+<p class="text-3xl font-bold text-text-light dark:text-text-dark">Stable</p>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary">Malaria, ARI, Diarrhea</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+<div class="lg:col-span-2 bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">map</span>
+                    Health Facilities Map
+                </div>
+<div class="h-80 rounded-lg overflow-hidden">
+<img alt="Map of health facilities" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa3BnUBMrqlZepGBHtfpwcG1KByV0iJqP7AMdS26iesDwj-19XUzQktPutayakEnTywXNKwE47Wm80lokZ_Ghp1Q6W0r0C9k15IIZp9BpD_t_2jzzdPxXppRshO0AjpKrekdx193YygYvGcm4TQ9jbECNy7q43hlfp73x5wIZLfZXArHp76USRccQW0BNSamUn8Uc1eH8W4gcd0GP10r3YGhCdO1B3MJtLS_mjSu8hPm1xFxLOyUYku4yskPH-AlPulEg2fU3aaFQ"/>
+</div>
+<div class="flex items-center space-x-4 mt-4 text-sm">
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-green-500 mr-2"></span>
+                        Functional
+                    </div>
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></span>
+                        Limited
+                    </div>
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-red-500 mr-2"></span>
+                        Non-functional
+                    </div>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow flex flex-col">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-4">
+<span class="material-icons mr-2">assistant</span>
+                    Assistant
+                </div>
+<div class="space-y-4 flex-grow">
+<div class="bg-primary text-white p-3 rounded-lg self-start max-w-xs">
+                        Where to allocate nurses this week?
+                    </div>
+<div class="bg-gray-100 dark:bg-slate-700 p-3 rounded-lg self-end text-text-light dark:text-text-dark">
+                        Recommendation: Reassign 12 nurses to Kano North and 8 to Kisumu Central based on 7-day load forecast.
+                    </div>
+</div>
+<div class="mt-4 flex items-center">
+<input class="flex-grow w-full bg-gray-100 dark:bg-slate-700 border-none rounded-lg focus:ring-primary dark:placeholder-text-dark-secondary" placeholder="Type your question..." type="text"/>
+<button class="ml-2 bg-primary text-white p-3 rounded-lg">
+<span class="material-icons">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">medication_liquid</span>
+                    Drug Stock-Out Forecast
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Predicted stock-outs in next 30 days</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">pending_actions</span>
+                    Patient Load Heatmap
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Demand by district and weekday</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">warning</span>
+                    Outbreak Risk Meter
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Composite risk score</p>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow mb-6">
+<h3 class="font-semibold text-text-light dark:text-text-dark mb-4">Resource Allocation</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left text-text-light-secondary dark:text-text-dark-secondary">
+<thead class="text-xs text-text-light dark:text-text-dark uppercase bg-gray-50 dark:bg-slate-700">
+<tr>
+<th class="px-6 py-3" scope="col">PHC Name</th>
+<th class="px-6 py-3" scope="col">Staff Required</th>
+<th class="px-6 py-3" scope="col">Drugs Needed</th>
+<th class="px-6 py-3" scope="col">Priority Level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="bg-card-light dark:bg-card-dark border-b dark:border-slate-700">
+<th class="px-6 py-4 font-medium text-text-light dark:text-white whitespace-nowrap" scope="row">Ikorodu Central PHC</th>
+<td class="px-6 py-4">6 Nurses, 2 Midwives</td>
+<td class="px-6 py-4">ACTs, ORS, Zinc</td>
+<td class="px-6 py-4"><span class="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">High</span></td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark border-b dark:border-slate-700">
+<th class="px-6 py-4 font-medium text-text-light dark:text-white whitespace-nowrap" scope="row">Kampala East PHC</th>
+<td class="px-6 py-4">3 Nurses</td>
+<td class="px-6 py-4">Antibiotics, PPE</td>
+<td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Medium</span></td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark border-b dark:border-slate-700">
+<th class="px-6 py-4 font-medium text-text-light dark:text-white whitespace-nowrap" scope="row">Kisumu Central PHC</th>
+<td class="px-6 py-4">4 Nurses, 1 Pharmacist</td>
+<td class="px-6 py-4">Malaria RDTs, Vaccines</td>
+<td class="px-6 py-4"><span class="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">High</span></td>
+</tr>
+<tr class="bg-card-light dark:bg-card-dark">
+<th class="px-6 py-4 font-medium text-text-light dark:text-white whitespace-nowrap" scope="row">Kano North PHC</th>
+<td class="px-6 py-4">8 Nurses</td>
+<td class="px-6 py-4">Insulin, ORS</td>
+<td class="px-6 py-4"><span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">Medium</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">people_alt</span>
+                    Underserved Population
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Distribution across regions</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">verified_user</span>
+                    Preventive Care Tracker
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Immunization and ANC coverage</p>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-4 rounded-lg shadow">
+<div class="flex items-center text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium mb-2">
+<span class="material-icons mr-2">favorite</span>
+                    Health Impact Score
+                </div>
+<div class="h-40 bg-gray-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500">
+<div class="w-full h-full bg-cover bg-no-repeat" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA3bweH1Que68xpj3-i4QJ5E_HQ8xoz35ekZd5ifVSFYrDSoq43JWyiW7JDOkVoToXkbwfpajAcODwHKpZ3nwij1KShGLixl2Mf6N1erXQt5_071yftFZ4OVSjUIETXoE_0gxEwNzzqtdF9Q6sXGPXtlfNtps7DU3OSeNrxg6Tktci5yjCts71poELBVdMF9EYoPblQS0tlZsFoTSUtkKpknJnWiuXaeeA10MSxuaeY5Vng_vDscggIxYTAkgSDWEEABBY7JjBLfgc')"></div>
+</div>
+<p class="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-2">Composite outcome index</p>
+</div>
+</div>
+</div>
+
+</body></html>

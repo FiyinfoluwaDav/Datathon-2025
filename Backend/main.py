@@ -1,8 +1,7 @@
 from fastapi import FastAPI
-from routers import patients, inventory
-from routers import auth
+from routers import patients, inventory, workload_monitor, feedback
 from database import Base, engine
-import models
+
 
 # Create all tables in the database (if they don't exist)
 Base.metadata.create_all(bind=engine)
@@ -36,8 +35,22 @@ app.add_middleware(
 # Include your patient router
 app.include_router(patients.router)
 app.include_router(inventory.router)
-app.include_router(auth.router)
+app.include_router(workload_monitor.router)
+app.include_router(feedback.router)
+
+
 
 @app.get("/")
 def root():
     return {"message": "Welcome to Hack Health API!"}
+
+
+
+
+
+
+
+
+
+
+
