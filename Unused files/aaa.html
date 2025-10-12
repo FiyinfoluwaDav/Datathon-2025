@@ -286,15 +286,6 @@
                                 <button id="show-lowstock-btn" class="bg-yellow-600 text-white px-3 py-1 rounded">Show Low Stock</button>
                                 <input id="threshold-days" type="number" min="1" value="5" class="w-20 px-2 py-1 rounded border" title="Threshold days" />
                                 <button id="create-restock-btn" class="bg-indigo-600 text-white px-3 py-1 rounded">Create Restock Requests</button>
-
-                                <!-- PHC selector (added) -->
-                                <select id="phc-select-inventory" class="ml-2 px-2 py-1 rounded border bg-white text-sm" title="Select PHC">
-                                    <option value="5">5 — PHC Rigasa</option>
-                                    <option value="1">1 — PHC Turunku</option>
-                                    <option value="3">3 — PHC Kerawa</option>
-                                    <option value="2">2 — PHC Afaka</option>
-                                    <option value="4">4 — PHC Sabon Birni</option>
-                                </select>
                             </div>
                         </div>
 
@@ -807,19 +798,6 @@
         (function () {
             // use existing API_BASE if present
             const API_BASE = (window.API_BASE || 'http://localhost:8000');
-            // selected PHC id (persisted)
-            let SELECTED_PHC_ID = Number(localStorage.getItem('SELECTED_PHC_ID') || 1);
-            function setSelectedPhc(id) {
-                SELECTED_PHC_ID = Number(id) || 1;
-                localStorage.setItem('SELECTED_PHC_ID', String(SELECTED_PHC_ID));
-                // update UI select if present
-                const sel = document.getElementById('phc-select-inventory');
-                if (sel) sel.value = String(SELECTED_PHC_ID);
-                // refresh inventory and summary for new PHC
-                refreshSummary().catch(() => {});
-                loadInventory(1).catch(() => {});
-            }
-
             const DEFAULT_PHC_ID = 1;
             let currentPage = 1;
             const PAGE_SIZE = 50;
@@ -839,13 +817,6 @@
             document.getElementById('show-lowstock-btn')?.addEventListener('click', showLowStock);
             document.getElementById('create-restock-btn')?.addEventListener('click', createRestockForThreshold);
 
-            // wire PHC selector UI
-            const phcSelector = document.getElementById('phc-select-inventory');
-            if (phcSelector) {
-                phcSelector.value = String(SELECTED_PHC_ID);
-                phcSelector.addEventListener('change', (e) => setSelectedPhc(e.target.value));
-            }
-
             document.getElementById('add-item-form')?.addEventListener('submit', async e => {
                 e.preventDefault();
                 const payload = {
@@ -854,8 +825,8 @@
                     add_quantity: Number(document.getElementById('f-qty').value) || 0,
                     daily_consumption_rate: Number(document.getElementById('f-daily').value) || 0,
                     unit: document.getElementById('f-unit').value.trim() || undefined,
-                    phc_id: SELECTED_PHC_ID,
-                    phc_name: '' // backend may infer from id
+                    phc_id: DEFAULT_PHC_ID,
+                    phc_name: 'PHC A'
                 };
                 try {
                     const res = await fetch(API_BASE + '/inventory/add-item', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -868,7 +839,7 @@
             async function loadInventory(page = 1) {
                 currentPage = page;
                 try {
-                    const res = await fetch(`${API_BASE}/inventory/items?page=${page}&page_size=${PAGE_SIZE}&phc_id=${SELECTED_PHC_ID}`);
+                    const res = await fetch(`${API_BASE}/inventory/items?page=${page}&page_size=${PAGE_SIZE}&phc_id=${DEFAULT_PHC_ID}`);
                     if (!res.ok) throw new Error('Failed to load');
                     const json = await res.json();
                     totalEl.textContent = json.total ?? 0;
@@ -899,7 +870,7 @@
 
             async function requestRestock(item) {
                 const suggested = item.daily_consumption_rate ? Math.max(1, Math.round(item.daily_consumption_rate * 7)) : Math.max(1, item.current_stock || 1);
-                const payload = { item_name: item.item_name, quantity_needed: suggested, phc_id: item.phd_id || SELECTED_PHC_ID, phc_name: item.phc_name || '' };
+                const payload = { item_name: item.item_name, quantity_needed: suggested, phc_id: item.phc_id || DEFAULT_PHC_ID, phc_name: item.phc_name || 'PHC A' };
                 try {
                     const res = await fetch(API_BASE + '/inventory/restock-requests', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!res.ok) throw new Error('Request failed');
@@ -910,7 +881,7 @@
             async function showLowStock() {
                 const thr = Number(document.getElementById('threshold-days').value) || 5;
                 try {
-                    const res = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${SELECTED_PHC_ID}`);
+                    const res = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`);
                     if (!res.ok) throw new Error('Failed');
                     const items = await res.json();
                     renderInventory(items);
@@ -921,7 +892,7 @@
             async function createRestockForThreshold() {
                 const thr = Number(document.getElementById('threshold-days').value) || 5;
                 try {
-                    const res = await fetch(`${API_BASE}/inventory/create-restock-for-threshold?threshold_days=${thr}&phc_id=${SELECTED_PHC_ID}`, { method: 'POST' });
+                    const res = await fetch(`${API_BASE}/inventory/create-restock-for-threshold?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`, { method: 'POST' });
                     if (!res.ok) { const txt = await res.text(); throw new Error(txt || 'Failed'); }
                     const json = await res.json();
                     alert((json.created ?? 0) + ' requests created');
@@ -931,10 +902,10 @@
 
             async function refreshSummary() {
                 try {
-                    const resTotal = await fetch(`${API_BASE}/inventory/items?page=1&page_size=1&phc_id=${SELECTED_PHC_ID}`);
+                    const resTotal = await fetch(`${API_BASE}/inventory/items?page=1&page_size=1&phc_id=${DEFAULT_PHC_ID}`);
                     if (resTotal.ok) { const js = await resTotal.json(); totalEl.textContent = js.total ?? 0; }
                     const thr = Number(document.getElementById('threshold-days').value) || 5;
-                    const resLow = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${SELECTED_PHC_ID}`);
+                    const resLow = await fetch(`${API_BASE}/inventory/low-stock?threshold_days=${thr}&phc_id=${DEFAULT_PHC_ID}`);
                     if (resLow.ok) { const low = await resLow.json(); lowstockEl.textContent = low.length ?? 0; }
                     const resReq = await fetch(`${API_BASE}/inventory/restock-requests`);
                     if (resReq.ok) { const reqs = await resReq.json(); pendingEl.textContent = reqs.filter(r => r.status === 'pending').length; }
@@ -945,7 +916,7 @@
             document.getElementById('workload-log-form')?.addEventListener('submit', async e => {
                 e.preventDefault();
                 const payload = {
-                    phc_id: SELECTED_PHC_ID,
+                    phc_id: DEFAULT_PHC_ID,
                     date: document.getElementById('w-date').value || undefined,
                     patient_count: Number(document.getElementById('w-count').value) || 0,
                     current_queue_count: Number(document.getElementById('w-queue').value) || 0,
@@ -960,7 +931,7 @@
             });
 
             document.getElementById('forecast-btn')?.addEventListener('click', async () => {
-                const phc = Number(document.getElementById('forecast-phc-id').value) || SELECTED_PHC_ID;
+                const phc = Number(document.getElementById('forecast-phc-id').value) || DEFAULT_PHC_ID;
                 try {
                     const res = await fetch(`${API_BASE}/workload/forecast/${phc}`, { method: 'POST' });
                     const js = await res.json();
@@ -972,10 +943,10 @@
             /* Feedback */
             document.getElementById('feedback-form')?.addEventListener('submit', async e => {
                 e.preventDefault();
-                const phcId = Number(document.getElementById('f-phc-id').value) || SELECTED_PHC_ID;
+                const phcId = Number(document.getElementById('f-phc-id').value) || DEFAULT_PHC_ID;
                 const title = document.getElementById('f-title').value.trim();
                 const body = document.getElementById('f-body').value.trim();
-                const payload = { phc_id: phcId, phc_name: '', category: 'General', title: title, message: body };
+                const payload = { phc_id: phcId, phc_name: 'PHC A', category: 'General', title: title, message: body };
                 try {
                     const res = await fetch(API_BASE + '/feedback/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     const js = await res.json();
@@ -989,7 +960,7 @@
             });
 
             document.getElementById('load-feedback')?.addEventListener('click', async () => {
-                const phc = Number(document.getElementById('f-phc-id').value) || SELECTED_PHC_ID;
+                const phc = Number(document.getElementById('f-phc-id').value) || DEFAULT_PHC_ID;
                 try {
                     const res = await fetch(`${API_BASE}/feedback/${phc}`);
                     const js = await res.json();
@@ -1001,76 +972,9 @@
             });
 
             // initialize
-            (async function init() { 
-                // ensure any stored selection is applied to UI
-                const sel = document.getElementById('phc-select-inventory');
-                if (sel) sel.value = String(SELECTED_PHC_ID);
-                await Promise.all([refreshSummary(), loadInventory(1)]);
-            })();
+            (async function init() { await Promise.all([refreshSummary(), loadInventory(1)]); })();
         })();
     </script>
-
-    <!-- Add Item Modal (inserted) -->
-<div id="add-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
-	<div class="w-full max-w-md bg-white dark:bg-card-dark rounded-lg shadow-lg overflow-hidden">
-		<div class="flex items-center justify-between px-4 py-3 border-b border-border-light dark:border-border-dark">
-			<h3 class="text-lg font-medium">Add Inventory Item</h3>
-			<!-- top-close uses inline onclick to avoid needing another event attachment -->
-			<button type="button" class="text-gray-600 hover:text-gray-800" onclick="document.getElementById('add-modal').classList.add('hidden')">
-				<span class="material-icons">close</span>
-			</button>
-		</div>
-
-		<form id="add-item-form" class="px-4 py-4 space-y-3">
-			<div>
-				<label class="text-sm font-medium">Item Name</label>
-				<input id="f-item-name" required class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm px-3 py-2 focus:border-primary focus:ring-primary" type="text" />
-			</div>
-
-			<div>
-				<label class="text-sm font-medium">Type</label>
-				<input id="f-item-type" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm px-3 py-2 focus:border-primary focus:ring-primary" type="text" />
-			</div>
-
-			<div class="grid grid-cols-2 gap-3">
-				<div>
-					<label class="text-sm font-medium">Quantity</label>
-					<input id="f-qty" required min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm px-3 py-2 focus:border-primary focus:ring-primary" type="number" />
-				</div>
-				<div>
-					<label class="text-sm font-medium">Daily Consumption</label>
-					<input id="f-daily" min="0" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm px-3 py-2 focus:border-primary focus:ring-primary" type="number" />
-				</div>
-			</div>
-
-			<div>
-				<label class="text-sm font-medium">Unit</label>
-				<input id="f-unit" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 shadow-sm px-3 py-2 focus:border-primary focus:ring-primary" type="text" />
-			</div>
-
-			<div class="flex justify-end space-x-2 pt-2 border-t border-border-light dark:border-border-dark">
-				<button type="button" id="close-add-btn" class="px-4 py-2 rounded border bg-white dark:bg-gray-700">Cancel</button>
-				<button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Save Item</button>
-			</div>
-		</form>
-	</div>
-</div>
-
-<!-- small helper: allow clicking ESC to close modal (non-invasive) -->
-<script>
-	(function () {
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape') {
-				const m = document.getElementById('add-modal');
-				if (m && !m.classList.contains('hidden')) m.classList.add('hidden');
-			}
-		});
-		// ensure clicking backdrop (outside dialog) closes modal
-		document.getElementById('add-modal')?.addEventListener('click', (ev) => {
-			if (ev.target && ev.target.id === 'add-modal') ev.target.classList.add('hidden');
-		});
-	})();
-</script>
 
 </body>
 

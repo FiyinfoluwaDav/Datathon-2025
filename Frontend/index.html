@@ -66,16 +66,6 @@
 							</li>
 							<li class="list-item">
 								<div>
-									<a href="/"
-									class="nav-dropdown-toggle w-dropdown-toggle nav-page-link w--current"
-									aria-current="page"
-									role="link">
-									<div>Services</div>
-									</a>
-								</div>
-							</li>
-							<li class="list-item">
-								<div>
 									<a href="team.html"
 									class="nav-dropdown-toggle w-dropdown-toggle nav-page-link w--current"
 									aria-current="page"
@@ -97,8 +87,17 @@
 										<path d="M2.75 6H16.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
 								</div>
-								<div>Login</div>
+								<div data-i18n="login_button">Login</div>
 							</a>
+
+							<!-- language selector -->
+							<select id="lang-select" class="ml-3 px-2 py-1 rounded text-sm">
+								<option value="en">EN</option>
+								<option value="yo">YO</option>
+								<option value="sw">SW</option>
+								<option value="ha">HA</option>
+								<option value="fr">FR</option>
+							</select>
 						</div>
 						<div class="menu-button w-nav-button">
 							<div class="nav-menu-bar-top"></div>
@@ -114,14 +113,14 @@
 					<div class="w-layout-grid banner-grid">
 						<div class="banner-left-text">
 							<div class="overflow-block">
-								<h1 data-w-id="8b88124f-28d7-abc2-22b4-09357430df14" style="opacity:0" class="banner-heading">AI-powered Insights for Stronger Primary Health Care in Africa</h1>
+								<h1 data-i18n="hero_heading" data-w-id="8b88124f-28d7-abc2-22b4-09357430df14" style="opacity:0" class="banner-heading">AI-powered Insights for Stronger Primary Health Care in Africa</h1>
 							</div>
 							<div class="banner-text-wrapper">
 								<div class="overflow-block">
 									<p data-w-id="f7558cbd-6aeb-41fa-a4b9-24a118915d65" style="opacity:0" class="banner-text">We use AI to predict stock-outs, support clinical triage, and help health workers make faster, smarter decisions.</p>
 								</div>
 								<div class="overflow-block">
-									<a data-w-id="864d9717-8c06-4609-86a6-7e611b1f8577" style="opacity:0" href="#challenge" class="primary-button w-button">More About Us</a>
+									<a data-w-id="864d9717-8c06-4609-86a6-7e611b1f8577" style="opacity:0" href="#challenge" class="primary-button w-button" data-i18n="more_about_us">More About Us</a>
 								</div>
 							</div>
 						</div>
@@ -389,5 +388,25 @@
 		</section>
 		<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=67dbaf8a0c22857f90281733" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://cdn.prod.website-files.com/67dbaf8a0c22857f90281733/js/webflow.209e4df0.a81944c852708259.js" type="text/javascript"></script>
+		<script>
+		(function(){
+			const translations = {
+				en: { hero_heading: "AI-powered Insights for Stronger Primary Health Care in Africa", more_about_us: "More About Us", login_button: "Login" },
+				yo: { hero_heading: "Ìmọ̀-lílo AI fún Ilọ́siwaju Ilé ìlera Akọ́kọ ní Afirika", more_about_us: "Diẹ̀ Nípa Wa", login_button: "Wọlé" },
+				sw: { hero_heading: "Maarifa ya AI kwa Ustawi wa Afya ya Msingi Afrika", more_about_us: "Taarifa Zaidi", login_button: "Ingia" },
+				ha: { hero_heading: "Bayanan AI don Ingantaccen Lafiya a Asibitocin Farko a Afirka", more_about_us: "Kara Bayani", login_button: "Shiga" },
+				fr: { hero_heading: "Insights alimentés par l'IA pour un meilleur soins primaires en Afrique", more_about_us: "En savoir plus", login_button: "Connexion" }
+			};
+			function apply(lang){
+				const d = translations[lang] || translations.en;
+				document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(!k) return; el.textContent = d[k] ?? translations.en[k] ?? el.textContent; });
+				localStorage.setItem('site_lang', lang);
+			}
+			const sel = document.getElementById('lang-select');
+			const saved = localStorage.getItem('site_lang') || 'en';
+			if (sel){ sel.value = saved; sel.addEventListener('change', (e)=> apply(e.target.value)); }
+			document.addEventListener('DOMContentLoaded', ()=> apply(saved));
+		})();
+		</script>
 	</body>
 </html>
