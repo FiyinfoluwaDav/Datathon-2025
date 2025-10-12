@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers.phc_auth import router as auth_router
+from routers.auth import router as auth_router
 from routers import patients, inventory, workload_monitor, feedback
 from database import Base, engine
 

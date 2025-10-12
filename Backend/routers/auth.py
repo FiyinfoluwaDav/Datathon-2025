@@ -27,6 +27,22 @@ class SignupRequest(BaseModel):
     password: str = Field(..., min_length=3, max_length=72)
     role: str
 
+# Response schema for Swagger docs
+class SignupResponse(BaseModel):
+    message: str
+    role: str
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str
+    role: str
+    redirect_to: str
+
 # normalize roles
 def _normalize_role(r: str) -> str:
     if not r:
@@ -134,7 +150,7 @@ def _init_db():
 # initialize on import - will raise if Postgres is unreachable / credentials invalid
 _init_db()
 
-@router.post("/signup")
+@router.post("/signup", response_model=SignupResponse)
 async def signup(request: Request):
     """
     Accepts JSON or form signup payload and stores user in Postgres.
@@ -185,10 +201,10 @@ async def signup(request: Request):
         print("DB error on signup:", e)
         raise HTTPException(status_code=500, detail=f"Failed to create user: {e}")
 
-    return {"message": "User registered successfully!", "role": role}
+    return {"message": "User registered successfully!", "role": data.role}
 
 
-@router.post("/login")
+@router.post("/login", response_model=LoginResponse)
 async def login(request: Request):
     """
     Accepts form or JSON credentials, verifies against Postgres, returns JWT and redirect hint.
