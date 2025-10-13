@@ -16,7 +16,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Use DATABASE_URL env var if provided; otherwise fall back to the project's Postgres URI
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:200428@127.0.0.1:5432/hackhealth")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://medisense_51dz_user:7nxnjwawB90SgpSCEGOLpPPeZQIQgYag@dpg-d3m22mt6ubrc73efll7g-a.oregon-postgres.render.com/medisense_51dz")
 SECRET_KEY = os.getenv("SECRET_KEY", "hackhealthsecret")
 ALGORITHM = "HS256"
 
