@@ -2,6 +2,8 @@
 
 MediSense is an AI-powered decision-support system designed to strengthen primary healthcare in Africa. It analyzes health facility data, predicts shortages and outbreaks, and supports smarter planning across Africa’s Primary Health Care systems.
 
+![Hero_section](hero_section.png)
+
 ## The Challenge
 
 Africa's primary healthcare infrastructure faces critical gaps that impact millions of lives daily. 
