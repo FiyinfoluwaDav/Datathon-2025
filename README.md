@@ -119,6 +119,6 @@ The backend API provides the following endpoints:
 ## Team
 
 - **Aderoju Abdulsallam** - AI Engineer
-- **Osokoya Fiyinfoluwa** - Frontend Developer
+- **Osokoya Fiyinfoluwa** - Software Engineer
 - **David Prince** - AI Engineer
 
