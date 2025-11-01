@@ -61,7 +61,7 @@ MediSense uses a token-based authentication system. Users can register and log i
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/medisense.git
+   git clone https://github.com/FiyinfoluwaDav/medisense.git
    cd medisense/Backend
    ```
 
