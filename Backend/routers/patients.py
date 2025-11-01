@@ -21,7 +21,7 @@ router = APIRouter(prefix="/patients", tags=["patients"])
 
 
 try:
-    client = genai.Client(api_key="AIzaSyDUdAcNHyVpqR88dgbY_bsXCdAzCnv-No4")
+    client = genai.Client(api_key="---INSERT--API---KEY---HERE")
     print("Gemini client initialized successfully.")
 except Exception as e:
     print(f"Gemini client initialization failed: {e}")
